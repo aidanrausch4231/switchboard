@@ -1,0 +1,72 @@
+.page { box-sizing: border-box; height: 100%; overflow: auto; padding: 28px 24px 48px; color: var(--dsw-alias-label-primary); font-size: 13px; line-height: 1.5; }
+:global([data-platform='darwin']) .page { padding-top: calc(28px + var(--dsh-frame-top-clearance, 0px)); }
+.page h1 { font-size: 20px; font-weight: 500; margin: 0; }
+.page h2 { font-size: 16px; font-weight: 500; margin: 0 0 8px; }
+.page h3, .page strong { font-size: 13px; font-weight: 500; }
+.page p { margin: 6px 0; overflow-wrap: anywhere; }
+.page small, .heading p, .rules, .memory p, .scope, .card > small { color: var(--dsw-alias-label-secondary); }
+.heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; }
+.actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr); border: 1px solid var(--dsw-alias-border-l2); border-radius: 12px; overflow: hidden; }
+.canvas { min-width: 0; padding: 16px; background: var(--dsw-alias-bg-layer-1); }
+.graphSvg { width: 100%; max-height: 490px; }
+.graphSvg text { fill: var(--dsw-alias-label-primary); font-size: 13px; }
+.graphSvg .svgSmall { font-size: 11px; fill: var(--dsw-alias-label-secondary); }
+.graphSvg rect { fill: var(--dsw-alias-bg-layer-2); stroke: var(--dsw-alias-border-l2); }
+.graphSvg path, .branch path { stroke: var(--dsw-alias-label-secondary); stroke-width: 1.3; fill: none; }
+.graphSvg .diamond { fill: var(--dsw-alias-bg-layer-2); stroke: var(--dsw-alias-link); stroke-width: 2; }
+.svgNode[role='button'] { cursor: pointer; }
+.svgNode[role='button']:hover rect, .svgNode[role='button']:focus rect { stroke-width: 3; }
+.graphSvg .askEdge { stroke-dasharray: 4 4; stroke: var(--dsw-alias-link); }
+.rules { padding: 16px 8px 0; }
+.rules h2 { font-size: 13px; }
+.dock { border-left: 1px solid var(--dsw-alias-border-l2); min-width: 0; background: var(--dsw-alias-bg-layer-2); }
+.tabs { display: flex; gap: 16px; padding: 12px 16px; border-bottom: 1px solid var(--dsw-alias-border-l2); }
+.tabs button, .card > button, .routing button, .edges button { color: inherit; font: inherit; border: 0; padding: 4px 0; background: none; cursor: pointer; text-align: left; }
+.tabs button[aria-pressed='true'] { color: var(--dsw-alias-link); border-bottom: 2px solid var(--dsw-alias-link); }
+.routing, .timeline { max-height: 600px; overflow: auto; padding: 16px; }
+.routing article { border: 1px solid var(--dsw-alias-border-l2); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.routing small { display: block; }
+.routeTarget, .badges { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.routeTarget { margin: 8px 0; }
+.chip { border: 1px solid var(--dsw-alias-border-l2); border-radius: 6px; padding: 2px 6px; font-size: 11px; }
+.dockSummary { padding: 24px; }
+.dockSummary > div { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--dsw-alias-border-l2); }
+.dockSummary p { margin-top: 24px; color: var(--dsw-alias-label-secondary); }
+.boardSection { margin-top: 28px; }
+.newCard { display: grid; grid-template-columns: 1fr 1.4fr 1.2fr; gap: 12px; margin: 16px 0 24px; }
+.newCard .actions { grid-column: 1 / -1; }
+.page label { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.page input, .page textarea, .page select { box-sizing: border-box; background: var(--dsw-alias-bg-layer-1); color: var(--dsw-alias-label-primary); border: 1px solid var(--dsw-alias-border-l2); border-radius: 6px; padding: 8px; font: inherit; max-width: 100%; min-width: 0; }
+.page textarea { resize: vertical; min-height: 38px; }
+.board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.column { border: 1px solid var(--dsw-alias-border-l2); border-radius: 8px; background: var(--dsw-alias-bg-layer-1); padding: 12px; min-height: 160px; }
+.column h3 { display: flex; justify-content: space-between; margin: 0 0 12px; }
+.column[data-state='needs-you'] { border-top: 2px solid var(--dsw-alias-link); }
+.card { display: flex; flex-direction: column; gap: 8px; padding: 12px; margin-top: 10px; border: 1px solid var(--dsw-alias-border-l2); border-radius: 8px; background: var(--dsw-alias-bg-layer-2); }
+.card > button { font-weight: 500; }
+.card p { max-height: 100px; overflow: auto; }
+.inside { padding: 12px; }
+.lead { max-width: 360px; margin: 24px auto 0; border: 2px solid; border-radius: 12px; padding: 16px; background: var(--dsw-alias-bg-layer-2); }
+.branch { display: block; width: 100%; height: 65px; }
+.nodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.nodes article { padding: 12px; border: 1px solid var(--dsw-alias-border-l2); border-radius: 8px; background: var(--dsw-alias-bg-layer-2); }
+.scope { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; overflow-wrap: anywhere; }
+.scope code, .memory code, .memory pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.memory pre { max-height: 160px; overflow: auto; font: inherit; }
+.edges { display: flex; gap: 12px; align-items: center; margin-top: 24px; }
+.edges button { color: var(--dsw-alias-link); }
+.memory { padding: 16px 8px; border-top: 1px solid var(--dsw-alias-border-l2); }
+.timeline article { display: grid; grid-template-columns: 65px 1fr; gap: 12px; margin: 16px 0; }
+.timeline time { color: var(--dsw-alias-label-secondary); font-size: 11px; }
+.timeline article div { border-left: 1px solid var(--dsw-alias-border-l2); padding-left: 12px; }
+.editor { max-width: 1000px; display: flex; flex-direction: column; gap: 16px; }
+.editor fieldset { border: 1px solid var(--dsw-alias-border-l2); border-radius: 8px; padding: 16px; }
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.nodeEditor { display: grid; gap: 12px; margin-bottom: 16px; }
+.nodeEditor textarea { min-height: 180px; font-family: monospace; }
+.page .check { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+.notice { padding: 12px; margin-bottom: 16px; border: 1px solid var(--dsw-alias-border-l2); border-radius: 8px; }
+.loading { display: flex; justify-content: center; padding: 48px; }
+@media (max-width: 1000px) { .board { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .layout, .newCard, .fields { grid-template-columns: 1fr; } .dock { border-left: 0; border-top: 1px solid var(--dsw-alias-border-l2); } .heading { align-items: flex-start; flex-direction: column; } }

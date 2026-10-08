@@ -1,0 +1,46 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/switchboard/fallback/README.md
+/:
+  en: b9f1927fd8cb91d2
+  zh: 1c04381b88e06c69
+/deepseek-ai-dsh-switchboard-fallback:
+  en: eccdffe586afcb55
+  zh: 48a01624a1e179cb
+/deepseek-ai-dsh-switchboard-fallback/summary:
+  en: 75bd59f379bf7d57
+  zh: 558616e66da4b526
+/deepseek-ai-dsh-switchboard-fallback/table-of-contents:
+  en: b563e4ec4727d0de
+  zh: 390e33020e4e5a7d
+/deepseek-ai-dsh-switchboard-fallback/use-this-package:
+  en: 690e24bd99e8e82c
+  zh: 8a042c05e9dc4519
+/deepseek-ai-dsh-switchboard-fallback/understand-the-implementation:
+  en: 9fa093fe5bc3bbd8
+  zh: d9b9a2bb9b121e9f
+/deepseek-ai-dsh-switchboard-fallback/further-exploration:
+  en: e470f8c2fe15a967
+  zh: 050f06d54e30599c
+/deepseek-ai-dsh-switchboard-fallback/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-switchboard-fallback/model-experience/replacement-request:
+  en: e358a05ee18aa8e9
+  zh: c6e4ac66e52eb113
+/deepseek-ai-dsh-switchboard-fallback/model-experience/replacement-request/what-the-model-sees:
+  en: ec96fdbfc402dc14
+  zh: b5f5809b488c5e3c
+/deepseek-ai-dsh-switchboard-fallback/model-experience/replacement-request/token-effect:
+  en: d63142f7444ba96e
+  zh: 9aeb9825d2f02d49
+/deepseek-ai-dsh-switchboard-fallback/model-experience/replacement-request/kv-cache-effect:
+  en: b1ca538a9df4d6d2
+  zh: 77c138e241ef6196
+/deepseek-ai-dsh-switchboard-fallback/known-limitations-and-deferred-work:
+  en: 4252c60cabc69eb3
+  zh: a981e0576c6d7c8c
+/deepseek-ai-dsh-switchboard-fallback/known-limitations-and-deferred-work/dev-note:
+  en: e67f633dc6fe7773
+  zh: 8ec3e73528ddb1a6

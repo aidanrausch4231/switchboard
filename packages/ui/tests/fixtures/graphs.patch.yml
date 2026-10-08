@@ -1,0 +1,13 @@
+# Test-only external model replacement; production rules and the complete runtime remain real.
+- id: hmr
+  disabled: true
+- id: storage-json
+  config:
+    root: !!js dshHomePath('graphs-ui-smoke/storages')
+- insert:
+    - id: graphs-ui-fake-model
+      name: ../../../core/tests/graph-browser-adapter.ts
+- id: switchboard-core
+  config:
+    fallbackRouterProvider: graph-fixture
+    fallbackRouterModel: scripted

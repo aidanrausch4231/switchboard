@@ -1,0 +1,10 @@
+version: 1
+scenario: switchboard-flow
+profile: headless
+composition: switchboard-flow
+recording: authored
+header:
+  class: switchboard-flow
+  pin: true
+  childSystemPrompts: [1]
+  childToolSchemas: [1]

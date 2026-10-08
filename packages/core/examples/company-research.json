@@ -1,0 +1,13 @@
+{
+  "id": "company-research",
+  "name": "Company research",
+  "version": 2,
+  "inputs": [{ "name": "workspace", "type": "path", "required": true }, { "name": "company", "type": "string" }],
+  "blocks": [
+    { "kind": "agent", "id": "research", "label": "Research independently", "harness": "dsh", "prompt": "Research {{inputs.company}} using web sources. Cite URLs, distinguish claims from verified facts, and write a uniquely named note under notes/. Return your findings and note path.", "scope": { "cwd": "{{inputs.workspace}}", "read": ["."], "write": ["notes"], "commands": [], "web": true, "sandbox": "workspace-write" }, "copies": 3, "concurrency": 2 },
+    { "kind": "agent", "id": "merge", "label": "Merge research", "harness": "dsh", "prompt": "Merge these independent findings about {{inputs.company}} into notes/summary.md. Preserve citations and disagreements: {{blocks.research.output}}", "scope": { "cwd": "{{inputs.workspace}}", "read": ["."], "write": ["notes"], "commands": [], "web": false, "sandbox": "workspace-write" } },
+    { "kind": "checks", "id": "checks", "label": "Check summary", "cwd": "{{inputs.workspace}}", "commands": ["test -s notes/summary.md"] }
+  ],
+  "edges": [{ "from": "research", "to": "merge", "kind": "next" }, { "from": "merge", "to": "checks", "kind": "next" }],
+  "limits": { "maxMinutes": 30, "maxHops": 8, "maxCostTokens": 100000 }
+}

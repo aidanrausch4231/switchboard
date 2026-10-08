@@ -1,0 +1,22 @@
+- region "Voice":
+  - paragraph: Switchboard
+  - heading "Voice" [level=1]
+  - paragraph: Hold Space outside a text field, or hold the microphone. Release to send; Escape cancels.
+  - button "Hold to talk"
+  - status: Ready
+  - heading "Voice settings" [level=2]
+  - text: Speech to text
+  - combobox "Speech to text":
+    - option "Browser" [selected]
+    - option "OpenAI"
+  - text: Speak final replies
+  - combobox "Speak final replies":
+    - option "Off" [selected]
+    - option "Browser"
+    - option "OpenAI"
+  - paragraph: "Browser speech recognition supported: Yes"
+  - paragraph: "Audio recording supported: Yes"
+  - paragraph: "OpenAI key present on Host: No"
+  - paragraph: Browser speech may use your browser vendor’s service. OpenAI sends audio and spoken reply text to OpenAI. Choices and transcript history last until this page is reloaded.
+  - heading "Transcript history" [level=2]
+  - paragraph: No transcripts in this browser session.

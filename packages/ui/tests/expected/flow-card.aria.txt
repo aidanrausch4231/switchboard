@@ -1,0 +1,5 @@
+- strong: Scripted UI preview
+- text: Needs you Step 4 of 5
+- progressbar "Step 4 of 5"
+- text: Observed tokens 72
+- button "Open Flow dock"

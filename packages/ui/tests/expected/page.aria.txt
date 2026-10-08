@@ -1,0 +1,52 @@
+- main:
+  - heading "Switchboard" [level=1]
+  - paragraph: Your workspace for flows, automations, graphs, council, and voice.
+  - region "Subscriptions":
+    - heading "Subscriptions" [level=2]
+    - paragraph: Use your existing subscription in chat. Sign in, then choose a model in the model picker.
+    - group "ChatGPT":
+      - heading "ChatGPT" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "Claude Pro / Max":
+      - heading "Claude Pro / Max" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "GitHub Copilot":
+      - heading "GitHub Copilot" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "Kimi":
+      - heading "Kimi" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "Meta":
+      - heading "Meta" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "xAI":
+      - heading "xAI" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+  - region "Host connection":
+    - heading "Host connection" [level=2]
+    - paragraph: Connected
+    - text: "{ \"ok\": true, \"version\": \"<VERSION>\", \"time\": \"<HOST_TIME>\" }"
+  - region "Workspace sections":
+    - heading "Workspace sections" [level=2]
+    - list:
+      - listitem:
+        - button "Flows"
+        - text: Build and run step-by-step workflows.
+      - listitem:
+        - button "Automations"
+        - text: Schedule flows and track their results.
+      - listitem:
+        - button "Graphs"
+        - text: Route tasks to teams and follow their progress.
+      - listitem:
+        - button "Council"
+        - text: Ask a panel of advisers and read their ruling.
+      - listitem:
+        - button "Voice"
+        - text: Choose speech input and spoken replies.

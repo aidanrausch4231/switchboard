@@ -1,0 +1,122 @@
+.page {
+  box-sizing: border-box;
+  height: 100%;
+  overflow: auto;
+  padding: 28px clamp(24px, 4vw, 48px) 48px;
+  color: var(--dsw-alias-label-primary);
+}
+
+:global([data-platform='darwin']) .page {
+  padding-top: calc(28px + var(--dsh-frame-top-clearance, 0px));
+}
+
+.card {
+  max-width: 960px;
+  margin: 0 auto 32px;
+  border: 0.5px solid var(--dsw-alias-border-l2);
+  border-radius: 12px;
+  padding: 24px;
+  color: var(--dsw-alias-label-primary);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.card header p,
+.detail {
+  color: var(--dsw-alias-label-secondary);
+}
+
+.row {
+  padding: 16px 0;
+  border-top: 0.5px solid var(--dsw-alias-border-l2);
+}
+
+.row:last-child {
+  padding-bottom: 0;
+}
+
+.summary,
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.summary {
+  justify-content: space-between;
+}
+
+.row h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.signed {
+  color: var(--dsw-alias-label-primary);
+}
+
+.interaction {
+  margin-top: 12px;
+  padding: 16px;
+  border: 0.5px solid var(--dsw-alias-border-l2);
+  border-radius: 8px;
+}
+
+.interaction p:first-child {
+  margin-top: 0;
+}
+
+.link {
+  display: inline-block;
+  color: var(--dsw-alias-label-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.question {
+  margin-top: 16px;
+}
+
+.question form {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.question label {
+  display: grid;
+  flex: 1;
+  gap: 8px;
+}
+
+.question input {
+  min-width: 180px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 0.5px solid var(--dsw-alias-border-l2);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.error {
+  margin-bottom: 0;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}

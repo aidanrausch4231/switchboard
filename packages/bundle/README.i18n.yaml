@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/switchboard/bundle/README.md
+/:
+  en: a9473d64c89fd035
+  zh: a790c17f06621a27
+/deepseek-ai-dsh-switchboard-bundle:
+  en: b5837ded4df761ae
+  zh: 17552d857ce87ca9
+/deepseek-ai-dsh-switchboard-bundle/summary:
+  en: b850050a12c7a806
+  zh: 8dd02f860bc1e4ca
+/deepseek-ai-dsh-switchboard-bundle/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: 9aa34fb1dc95d8cf
+/deepseek-ai-dsh-switchboard-bundle/use-this-package:
+  en: a2832696f9cffaa0
+  zh: e646924d4981fc94
+/deepseek-ai-dsh-switchboard-bundle/understand-the-implementation:
+  en: 5a7be5c3a30ea546
+  zh: 3c7b245a329525b7
+/deepseek-ai-dsh-switchboard-bundle/further-exploration:
+  en: 0c3bbf69e939e8f9
+  zh: 07ee84c1cc53bec9
+/deepseek-ai-dsh-switchboard-bundle/model-experience:
+  en: 0999448fa4442d0b
+  zh: d8d5686a4db27927
+/deepseek-ai-dsh-switchboard-bundle/model-experience/kv-cache-effect:
+  en: 6a35a4cccbfbf2b2
+  zh: c5a78a426b72a4b3
+/deepseek-ai-dsh-switchboard-bundle/known-limitations-and-deferred-work:
+  en: cd4913d3734a6ba3
+  zh: be7843f280bc03ad
+/deepseek-ai-dsh-switchboard-bundle/known-limitations-and-deferred-work/dev-note:
+  en: 0a1253c6f7b5e8b9
+  zh: 9f56528562c7c914

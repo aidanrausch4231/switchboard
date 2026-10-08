@@ -1,0 +1,41 @@
+- strong: Scripted UI preview
+- text: Needs you Step 4 of 5
+- progressbar "Step 4 of 5"
+- text: Observed tokens 72
+- application:
+  - img:
+    - group "Edge from map to build"
+  - img:
+    - group "Edge from build to checks"
+  - img:
+    - group "Edge from checks to review"
+  - img:
+    - group "Edge from review to you"
+  - img:
+    - group "Edge from review to build": Refuted · 2
+  - group:
+    - strong: Map
+    - text: Done · Attempts 1 · Round 0
+  - group:
+    - strong: Build
+    - text: Done · Attempts 1 · Round 0
+  - group:
+    - strong: Checks
+    - text: Done · Attempts 1 · Round 0
+  - group:
+    - strong: Review
+    - text: Done · Attempts 1 · Round 0
+  - group:
+    - strong: You decide
+    - text: Needs you · Attempts 1 · Round 0
+  - img
+  - link "React Flow attribution":
+    - /url: https://reactflow.dev?utm_source=attribution
+    - text: React Flow
+- button "Fit graph"
+- button "Zoom in": +
+- button "Zoom out": −
+- strong: You decide
+- button "Approve"
+- button "Deny"
+- button "Cancel run"

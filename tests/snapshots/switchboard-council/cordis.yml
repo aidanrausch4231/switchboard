@@ -1,0 +1,20 @@
+- id: headless-runner
+  disabled: true
+- id: session-log-deepseek
+  config:
+    enabled: false
+- id: plugin-package-inventory-deepseek
+  config:
+    enabled: false
+- id: session-telemetry-otel
+  disabled: true
+- insert:
+    - id: switchboard-council
+      name: '@deepseek-ai/dsh-switchboard-council'
+      config:
+        chair: a
+        seats:
+          - { id: a, label: Model A, kind: llm, provider: fake, model: model-a, enabled: true }
+          - { id: b, label: Model B, kind: llm, provider: fake, model: model-b, enabled: true }
+    - id: council-snapshot
+      name: ../../../packages/switchboard/council/tests/fixtures/snapshot-plugin.ts

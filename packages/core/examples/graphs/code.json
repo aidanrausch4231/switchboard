@@ -1,0 +1,28 @@
+{
+  "id": "code",
+  "name": "Code",
+  "description": "Bugs, code changes, and independent review",
+  "color": "#6ea8fe",
+  "lead": {
+    "harness": "dsh",
+    "provider": "deepseek-official",
+    "model": "deepseek-v4-flash",
+    "memoryDir": "/switchboard-memory/code",
+    "instructions": "Read memory first. Keep notes concise. Never perform production writes; bounce uncertain requests. Dispatch only when the card supplies a workspace."
+  },
+  "nodes": [
+    {
+      "id": "fix-bug",
+      "kind": "flow",
+      "flowId": "fix-bug-with-review",
+      "description": "Fix a bug with independent review. Input: bug (string)."
+    }
+  ],
+  "edges": [
+    "research"
+  ],
+  "rules": {
+    "maxCostTokens": 100000,
+    "prodWrites": "never"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "name": "@switchboard/core",
+  "description": "Switchboard saved Flows, scoped execution and durable runs API",
+  "version": "0.2.1-alpha.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/dsh-authorization": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-settings": "0.2.1-alpha.1",
+    "@deepseek-ai/cordis": "4.0.5-alpha.1",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-agent-default-model": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-agent-preset-registry": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-sandbox-policy": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-shell": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-storage-domain": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-subagent": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-user-approval": "0.2.1-alpha.1",
+    "@deepseek-ai/cordis-plugin-timer": "1.1.7-alpha.1",
+    "@switchboard/council": "workspace:*"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-credentials-local": "link:../../../dsh-upstream/packages/credentials/credentials-local",
+    "@deepseek-ai/dsh-session-snapshot": "link:../../../dsh-upstream/packages/test-support/session-snapshot",
+    "@deepseek-ai/dsh-loader-smoke": "link:../../../dsh-upstream/packages/test-support/loader-smoke",
+    "@deepseek-ai/dsh-authorization": "link:../../../dsh-upstream/packages/credentials/authorization",
+    "@deepseek-ai/dsh-credentials": "link:../../../dsh-upstream/packages/credentials/credentials",
+    "@deepseek-ai/dsh-settings": "link:../../../dsh-upstream/packages/settings/settings",
+    "@deepseek-ai/cordis": "link:../../../dsh-upstream/vendor/cordis",
+    "@deepseek-ai/cordis-plugin-group": "link:../../../dsh-upstream/vendor/group",
+    "@deepseek-ai/cordis-plugin-include": "link:../../../dsh-upstream/vendor/include",
+    "@deepseek-ai/cordis-plugin-loader": "link:../../../dsh-upstream/vendor/loader",
+    "@deepseek-ai/dsh-agent": "link:../../../dsh-upstream/packages/core/agent",
+    "@deepseek-ai/dsh-agent-default-model": "link:../../../dsh-upstream/packages/core/agent-default-model",
+    "@deepseek-ai/dsh-agent-loop": "link:../../../dsh-upstream/packages/core/agent-loop",
+    "@deepseek-ai/dsh-agent-preset": "link:../../../dsh-upstream/packages/preset/agent-preset",
+    "@deepseek-ai/dsh-agent-preset-registry": "link:../../../dsh-upstream/packages/preset/agent-preset-registry",
+    "@deepseek-ai/dsh-agent-tool-presentation": "link:../../../dsh-upstream/packages/core/agent-tool-presentation",
+    "@deepseek-ai/dsh-bash-local": "link:../../../dsh-upstream/packages/shell/bash-local",
+    "@deepseek-ai/dsh-fs-local": "link:../../../dsh-upstream/packages/fs/fs-local",
+    "@deepseek-ai/dsh-llm": "link:../../../dsh-upstream/packages/llm/llm",
+    "@deepseek-ai/dsh-ptc-runtime": "link:../../../dsh-upstream/packages/ptc-runtime/ptc-runtime",
+    "@deepseek-ai/dsh-sandbox-policy": "link:../../../dsh-upstream/packages/sandbox/sandbox-policy",
+    "@deepseek-ai/dsh-session": "link:../../../dsh-upstream/packages/core/session",
+    "@deepseek-ai/dsh-session-projection": "link:../../../dsh-upstream/packages/session/session-projection",
+    "@deepseek-ai/dsh-shell": "link:../../../dsh-upstream/packages/shell/shell",
+    "@deepseek-ai/dsh-shell-env": "link:../../../dsh-upstream/packages/shell/shell-env",
+    "@deepseek-ai/dsh-storage": "link:../../../dsh-upstream/packages/storage/storage",
+    "@deepseek-ai/dsh-storage-domain": "link:../../../dsh-upstream/packages/storage/storage-domain",
+    "@deepseek-ai/dsh-storage-json": "link:../../../dsh-upstream/packages/storage/storage-json",
+    "@deepseek-ai/dsh-subagent": "link:../../../dsh-upstream/packages/subagent/subagent",
+    "@deepseek-ai/dsh-subprocess-local": "link:../../../dsh-upstream/packages/subprocess/subprocess-local",
+    "@deepseek-ai/dsh-system-prompt": "link:../../../dsh-upstream/packages/core/system-prompt",
+    "@deepseek-ai/dsh-tool-bash": "link:../../../dsh-upstream/packages/shell/tool-bash",
+    "@deepseek-ai/dsh-tool-fs": "link:../../../dsh-upstream/packages/fs/tool-fs",
+    "@deepseek-ai/dsh-tool-web": "link:../../../dsh-upstream/packages/web/tool-web",
+    "@deepseek-ai/dsh-tools": "link:../../../dsh-upstream/packages/core/tools",
+    "@deepseek-ai/dsh-typert-protocol": "link:../../../dsh-upstream/packages/typert/protocol",
+    "@deepseek-ai/dsh-user-approval": "link:../../../dsh-upstream/packages/interaction/user-approval",
+    "@deepseek-ai/dsh-web": "link:../../../dsh-upstream/packages/web/web",
+    "@types/js-yaml": "^4.0.9",
+    "js-yaml": "^4.2.0",
+    "@deepseek-ai/cordis-plugin-timer": "link:../../../dsh-upstream/vendor/timer",
+    "@switchboard/council": "workspace:*",
+    "@deepseek-ai/dsh-session-persistence-jsonl": "link:../../../dsh-upstream/packages/session/session-persistence-jsonl"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "dependencies": {
+    "@deepseek-ai/dsh-brand": "link:../../../dsh-upstream/packages/util/brand",
+    "@deepseek-ai/schemastery": "link:../../../dsh-upstream/vendor/schemastery",
+    "croner": "^9.1.0",
+    "zod": "4.4.3"
+  }
+}

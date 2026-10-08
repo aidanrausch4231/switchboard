@@ -1,0 +1,17 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "packages/council"
+    },
+    {
+      "path": "packages/core"
+    },
+    {
+      "path": "packages/fallback"
+    },
+    {
+      "path": "packages/bundle"
+    }
+  ]
+}

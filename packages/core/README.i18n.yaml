@@ -1,0 +1,49 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/switchboard/core/README.md
+/:
+  en: d7cff0e032ed8f10
+  zh: cca6a678f6842514
+/deepseek-ai-dsh-switchboard-core:
+  en: 2c20fa5821dae250
+  zh: 5b5eb55f5ed72345
+/deepseek-ai-dsh-switchboard-core/summary:
+  en: 3f464ce0101dca6a
+  zh: 123aca1faed758c9
+/deepseek-ai-dsh-switchboard-core/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: 9aa34fb1dc95d8cf
+/deepseek-ai-dsh-switchboard-core/use-this-package:
+  en: 7947df4e33d707f5
+  zh: d25350b05e0aed91
+/deepseek-ai-dsh-switchboard-core/understand-the-implementation:
+  en: 8589b90811c1623f
+  zh: dbb8032b49b3b1ed
+/deepseek-ai-dsh-switchboard-core/further-exploration:
+  en: 321957cbecda9683
+  zh: 997c8155890a127c
+/deepseek-ai-dsh-switchboard-core/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-switchboard-core/model-experience/scoped-agent-requests:
+  en: 942be995e93fa993
+  zh: c693ef0ef3da6c49
+/deepseek-ai-dsh-switchboard-core/model-experience/scoped-agent-requests/what-the-model-sees:
+  en: b5ced0a685cd2dd2
+  zh: 37e01ce751e51c6d
+/deepseek-ai-dsh-switchboard-core/model-experience/scoped-agent-requests/what-the-model-sees/scope-instructions:
+  en: 0fb629f34740e97d
+  zh: f9ea7b4fc999ffe4
+/deepseek-ai-dsh-switchboard-core/model-experience/scoped-agent-requests/token-effect:
+  en: 9daef7fa1bb826ba
+  zh: 263190852b373f58
+/deepseek-ai-dsh-switchboard-core/model-experience/scoped-agent-requests/kv-cache-effect:
+  en: 09712f28cf666f56
+  zh: 71f83cdf99dd7183
+/deepseek-ai-dsh-switchboard-core/known-limitations-and-deferred-work:
+  en: 3b95a599e1f78ba1
+  zh: f601a580fbb75a83
+/deepseek-ai-dsh-switchboard-core/known-limitations-and-deferred-work/dev-note:
+  en: 0a1253c6f7b5e8b9
+  zh: 9f56528562c7c914

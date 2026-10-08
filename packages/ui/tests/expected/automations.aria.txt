@@ -1,0 +1,56 @@
+- main:
+  - heading "Automations" [level=1]
+  - paragraph: Saved Flows, on your schedule. Runs continue while this page is closed.
+  - button "Refresh"
+  - button "New automation"
+  - button "Company research automation Company research · scripted example · Research independently → Merge research → Review summary Manual Manual Failed" [pressed]:
+    - strong: Company research automation
+    - text: Company research · scripted example · Research independently → Merge research → Review summary Manual Manual Failed
+  - heading "Company research automation" [level=2]
+  - button "Run now"
+  - button "Pause"
+  - button "Edit automation"
+  - button "Delete automation"
+  - status: Ready; at most 5 estimated agent launches
+  - heading "Outcomes 2 of 3 succeeded" [level=3]
+  - list "Outcomes":
+    - listitem "<TIME> · Succeeded"
+    - listitem "<TIME> · Succeeded"
+    - listitem "<TIME> · Failed"
+  - heading "Duration per run Median <DURATION>" [level=3]
+  - img "Duration per run in seconds": <DURATION> <DURATION> <DURATION> Oldest Latest
+  - heading "Where runs stop" [level=3]
+  - paragraph: Newest first · rows are runs, columns are blocks
+  - table "Where runs stop":
+    - rowgroup:
+      - row "Run research merge checks":
+        - columnheader "Run"
+        - columnheader "research"
+        - columnheader "merge"
+        - columnheader "checks"
+    - rowgroup:
+      - 'row "<TIME> research: Failed merge: Not reached checks: Not reached"':
+        - rowheader "<TIME>"
+        - 'cell "research: Failed"':
+          - 'img "research: Failed"'
+        - 'cell "merge: Not reached"':
+          - 'img "merge: Not reached"'
+        - 'cell "checks: Not reached"':
+          - 'img "checks: Not reached"'
+      - 'row "<TIME> research: Succeeded merge: Succeeded checks: Succeeded"':
+        - rowheader "<TIME>"
+        - 'cell "research: Succeeded"':
+          - 'img "research: Succeeded"'
+        - 'cell "merge: Succeeded"':
+          - 'img "merge: Succeeded"'
+        - 'cell "checks: Succeeded"':
+          - 'img "checks: Succeeded"'
+      - 'row "<TIME> research: Succeeded merge: Succeeded checks: Succeeded"':
+        - rowheader "<TIME>"
+        - 'cell "research: Succeeded"':
+          - 'img "research: Succeeded"'
+        - 'cell "merge: Succeeded"':
+          - 'img "merge: Succeeded"'
+        - 'cell "checks: Succeeded"':
+          - 'img "checks: Succeeded"'
+  - paragraph: 1 failed runs stopped at research. Check that block’s brief or model first.

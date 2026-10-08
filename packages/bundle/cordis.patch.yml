@@ -1,0 +1,23 @@
+- insert:
+    - id: claude-code-council
+      name: '@switchboard/council/claude-code'
+      config:
+        providerName: claude-code-council
+        permissionMode: plan
+    - id: switchboard-council
+      name: '@switchboard/council'
+    - id: switchboard-core
+      name: '@switchboard/core'
+    - id: switchboard-ui
+      name: '@switchboard/ui'
+
+- id: session-log-deepseek
+  config:
+    enabled: false
+
+- id: plugin-package-inventory-deepseek
+  config:
+    enabled: false
+
+- id: session-telemetry-otel
+  disabled: true

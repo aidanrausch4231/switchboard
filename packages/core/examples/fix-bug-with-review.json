@@ -1,0 +1,21 @@
+{
+  "id": "fix-bug-with-review",
+  "name": "Fix bug with review",
+  "version": 2,
+  "inputs": [{ "name": "workspace", "type": "path", "required": true }, { "name": "bug", "type": "string" }],
+  "blocks": [
+    { "kind": "agent", "id": "map", "label": "Map", "harness": "dsh", "prompt": "Locate the cause of {{inputs.bug}}. Do not edit files.", "scope": { "cwd": "{{inputs.workspace}}", "read": ["."], "write": [], "commands": [], "web": false, "sandbox": "read-only" } },
+    { "kind": "agent", "id": "build", "label": "Build", "harness": "dsh", "prompt": "Fix {{inputs.bug}} using this map: {{blocks.map.output}}. Edit only src/ and add a focused regression test there. Previous review (empty on the first pass): {{blocks.review.output}}", "scope": { "cwd": "{{inputs.workspace}}", "read": ["."], "write": ["src"], "commands": [], "web": false, "sandbox": "workspace-write" } },
+    { "kind": "checks", "id": "checks", "label": "Checks", "cwd": "{{inputs.workspace}}", "commands": ["git diff --check"] },
+    { "kind": "agent", "id": "review", "label": "Review", "harness": "dsh", "prompt": "Review the fix for {{inputs.bug}}. Build report: {{blocks.build.output}}. Checks: {{blocks.checks.output}}. Read src/ and assess the fix independently. Start with REFUTED if changes are required; otherwise start with APPROVED.", "scope": { "cwd": "{{inputs.workspace}}", "read": ["."], "write": [], "commands": [], "web": false, "sandbox": "read-only" } },
+    { "kind": "gate", "id": "you", "label": "You decide" }
+  ],
+  "edges": [
+    { "from": "map", "to": "build", "kind": "next" },
+    { "from": "build", "to": "checks", "kind": "next" },
+    { "from": "checks", "to": "review", "kind": "next" },
+    { "from": "review", "to": "you", "kind": "next" },
+    { "from": "review", "to": "build", "kind": "loop", "on": "refuted", "maxRounds": 2 }
+  ],
+  "limits": { "maxMinutes": 30, "maxHops": 12, "maxCostTokens": 200000 }
+}

@@ -1,0 +1,85 @@
+.page {
+  box-sizing: border-box;
+  height: 100%;
+  overflow: auto;
+  padding: 0 clamp(24px, 4vw, 48px) 48px;
+  color: var(--dsw-alias-label-primary);
+}
+
+.page > * {
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+.header {
+  padding-top: 28px;
+  margin-bottom: 32px;
+}
+
+:global([data-platform='darwin']) .header {
+  padding-top: calc(28px + var(--dsh-frame-top-clearance, 0px));
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.page h2 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.page p,
+.sections {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.header p,
+.description {
+  color: var(--dsw-alias-label-secondary);
+}
+
+.connection {
+  margin-bottom: 32px;
+}
+
+.connection pre {
+  overflow: auto;
+  padding: 16px;
+  border: 0.5px solid var(--dsw-alias-border-l2);
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.sections {
+  padding: 0;
+  list-style: none;
+}
+
+.sections li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 0.5px solid var(--dsw-alias-border-l2);
+}

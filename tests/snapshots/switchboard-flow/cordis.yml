@@ -1,0 +1,14 @@
+- insert:
+    - id: agent-preset-registry
+      name: '@deepseek-ai/dsh-agent-preset-registry'
+      config:
+        default: snapshot-flow
+    - id: preset-snapshot-flow
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: snapshot-flow
+        plugins: []
+    - id: switchboard-core
+      name: '../../../packages/core/lib/index.js'
+    - id: snapshot-switchboard-flow
+      name: '../../../packages/core/tests/fixtures/snapshot-flow.ts'

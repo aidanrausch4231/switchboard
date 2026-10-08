@@ -1,0 +1,28 @@
+- id: llm-deepseek
+  disabled: true
+
+- insert:
+    - id: llm-replay
+      name: '@deepseek-ai/dsh-llm-replay'
+      config:
+        providers:
+          - id: deepseek-official
+            name: DeepSeek
+            models:
+              - id: deepseek-v4-flash
+                defaultMaxTokens: 256000
+                reasoningEfforts: [off, low, high, max]
+                defaultReasoningEffort: high
+    - id: agent-preset-registry
+      name: '@deepseek-ai/dsh-agent-preset-registry'
+      config:
+        default: snapshot-flow
+    - id: preset-snapshot-flow
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: snapshot-flow
+        plugins: []
+    - id: switchboard-core
+      name: '../../../packages/core/lib/index.js'
+    - id: snapshot-switchboard-flow
+      name: '../../../packages/core/tests/fixtures/snapshot-flow.ts'

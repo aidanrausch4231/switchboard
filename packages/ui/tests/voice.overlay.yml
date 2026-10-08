@@ -1,0 +1,3 @@
+# Real-host browser checks do not need filesystem watchers.
+- id: hmr
+  disabled: true

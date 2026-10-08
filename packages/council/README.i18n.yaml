@@ -1,0 +1,49 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/switchboard/council/README.md
+/:
+  en: 219ee01eda019b91
+  zh: 490c7683b46e82b0
+/deepseek-ai-dsh-switchboard-council:
+  en: e9bc0c87128db45b
+  zh: 7e1b971505d92dfe
+/deepseek-ai-dsh-switchboard-council/summary:
+  en: 2f2c19ee0e52bc5b
+  zh: 6be6fdf957909ac0
+/deepseek-ai-dsh-switchboard-council/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: dbb94479b1334720
+/deepseek-ai-dsh-switchboard-council/use-this-package:
+  en: b2d68968eddda9b3
+  zh: b3e37c63d5a8ab39
+/deepseek-ai-dsh-switchboard-council/understand-the-implementation:
+  en: 2dc8fa9a34f8d2f4
+  zh: bffda8855bec8d05
+/deepseek-ai-dsh-switchboard-council/further-exploration:
+  en: e65eec7ecce370b8
+  zh: c007e6fe49917bdc
+/deepseek-ai-dsh-switchboard-council/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-switchboard-council/model-experience/council-requests:
+  en: 0618c9555f1dfb1d
+  zh: 5a3f717eea9c9dca
+/deepseek-ai-dsh-switchboard-council/model-experience/council-requests/what-the-model-sees:
+  en: 4e7c2ac88c02c894
+  zh: 0a242e3d51788bb5
+/deepseek-ai-dsh-switchboard-council/model-experience/council-requests/what-the-model-sees/read-only-instruction:
+  en: e4b10df7191e216f
+  zh: b62572eccc8616bc
+/deepseek-ai-dsh-switchboard-council/model-experience/council-requests/token-effect:
+  en: 0713d58fa4f5377d
+  zh: 75c03d012601f52b
+/deepseek-ai-dsh-switchboard-council/model-experience/council-requests/kv-cache-effect:
+  en: 39dcc3336380117f
+  zh: 53688ff1f0f9ae32
+/deepseek-ai-dsh-switchboard-council/known-limitations-and-deferred-work:
+  en: 38d58b1b6d984bad
+  zh: 18b3689ca70bca7a
+/deepseek-ai-dsh-switchboard-council/known-limitations-and-deferred-work/dev-note:
+  en: 0a1253c6f7b5e8b9
+  zh: 9f56528562c7c914

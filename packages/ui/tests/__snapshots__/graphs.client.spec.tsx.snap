@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders all four board columns, usage, confidence, reasons, and human actions from fixtures > board and routing copy 1`] = `"New 0Running 1Explain invoicechat · RunningBilling · Invoice question50 tokens1 / 5 hopsNeeds you 1Deploy prodmanual · Needs youYou · Production writes are prohibited0 tokens0 / 5 hopsApproveRejectYouCouncilBillingRerouteDone 0Explain invoicechat→ Billing95%Invoice questionDeploy prodmanual→ You100%Production writes are prohibited"`;

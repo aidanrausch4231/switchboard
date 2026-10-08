@@ -1,0 +1,91 @@
+{
+  "name": "@switchboard/council",
+  "description": "Read-only multi-model Council with durable answers and rulings",
+  "version": "0.2.1-alpha.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./claude-code": {
+      "types": "./lib/types/claude-code.d.ts",
+      "default": "./lib/claude-code.js"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "4.0.5-alpha.1",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-storage-domain": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-subagent": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-subagent-claude-code": "0.2.1-alpha.1",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.1",
+    "@deepseek-ai/schemastery": "3.18.5-alpha.1",
+    "@deepseek-ai/cordis-plugin-loader": "1.0.6-alpha.1"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "link:../../../dsh-upstream/vendor/cordis",
+    "@deepseek-ai/dsh-typert-protocol": "link:../../../dsh-upstream/packages/typert/protocol",
+    "@deepseek-ai/dsh-agent": "link:../../../dsh-upstream/packages/core/agent",
+    "@deepseek-ai/dsh-brand": "link:../../../dsh-upstream/packages/util/brand",
+    "@deepseek-ai/dsh-llm": "link:../../../dsh-upstream/packages/llm/llm",
+    "@deepseek-ai/dsh-session": "link:../../../dsh-upstream/packages/core/session",
+    "@deepseek-ai/dsh-storage-domain": "link:../../../dsh-upstream/packages/storage/storage-domain",
+    "@deepseek-ai/dsh-subagent": "link:../../../dsh-upstream/packages/subagent/subagent",
+    "@deepseek-ai/dsh-subagent-claude-code": "link:../../../dsh-upstream/packages/subagent/subagent-claude-code",
+    "@deepseek-ai/dsh-timeout": "link:../../../dsh-upstream/packages/util/timeout",
+    "@deepseek-ai/schemastery": "link:../../../dsh-upstream/vendor/schemastery",
+    "@deepseek-ai/cordis-plugin-loader": "link:../../../dsh-upstream/vendor/loader",
+    "@deepseek-ai/dsh-agent-loop": "link:../../../dsh-upstream/packages/core/agent-loop",
+    "@deepseek-ai/dsh-session-projection": "link:../../../dsh-upstream/packages/session/session-projection",
+    "@deepseek-ai/dsh-session-persistence-jsonl": "link:../../../dsh-upstream/packages/session/session-persistence-jsonl",
+    "@deepseek-ai/dsh-system-prompt": "link:../../../dsh-upstream/packages/core/system-prompt",
+    "@deepseek-ai/dsh-tools": "link:../../../dsh-upstream/packages/core/tools",
+    "@deepseek-ai/dsh-storage": "link:../../../dsh-upstream/packages/storage/storage",
+    "@deepseek-ai/dsh-storage-json": "link:../../../dsh-upstream/packages/storage/storage-json",
+    "@deepseek-ai/dsh-subprocess-local": "link:../../../dsh-upstream/packages/subprocess/subprocess-local",
+    "@deepseek-ai/dsh-loader-smoke": "link:../../../dsh-upstream/packages/test-support/loader-smoke",
+    "@deepseek-ai/dsh-app-boot": "link:../../../dsh-upstream/packages/boot/app-boot",
+    "@deepseek-ai/dsh-cmdline": "link:../../../dsh-upstream/packages/boot/cmdline"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts",
+    "lib/*.js"
+  ],
+  "dependencies": {
+    "zod": "4.4.3"
+  }
+}

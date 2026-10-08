@@ -1,0 +1,8 @@
+version: 1
+scenario: switchboard-council
+profile: headless
+composition: switchboard-council
+recording: authored
+header:
+  class: switchboard-council
+  pin: true

@@ -1,0 +1,44 @@
+- region "Council chamber":
+  - status: Complete
+  - text: View round
+  - combobox "View round":
+    - option "Live round" [selected]
+    - option "Round 1 of 1"
+  - text: The question
+  - paragraph: Which storage should a single-machine card board use?
+  - text: Round 1 of 1 · Read-only deliberation
+  - article "Research chair":
+    - heading "Research chair Seat A" [level=3]
+    - text: model-a Chair · moderates and rules Answered
+    - paragraph: The reversible option is preferable.
+    - text: "Vote: Seat B 90 tokens"
+  - article "Engineering":
+    - heading "Engineering Seat B" [level=3]
+    - text: model-b Council adviser Answered
+    - paragraph: The reversible option is preferable.
+    - text: "Vote: Seat B 60 tokens"
+  - article "Systems":
+    - heading "Systems Seat C" [level=3]
+    - text: model-c Council adviser Answered
+    - paragraph: The reversible option is preferable.
+    - text: "Vote: Seat B 60 tokens"
+  - article "Operations":
+    - heading "Operations Seat D" [level=3]
+    - text: model-a Council adviser Answered
+    - paragraph: The reversible option is preferable.
+    - text: "Vote: Seat B 60 tokens"
+  - article "Review":
+    - heading "Review Seat E" [level=3]
+    - text: model-b Council adviser Answered
+    - paragraph: The reversible option is preferable.
+    - text: "Vote: Seat B 60 tokens"
+  - text: Vote tally Seat A · 0 Seat B · 5 Seat C · 0 Seat D · 0 Seat E · 0
+  - group: Full answers
+  - region "The chair’s ruling":
+    - heading "The chair’s ruling" [level=2]
+    - text: "Confidence: 80%"
+    - paragraph: Choose the reversible option.
+    - heading "Dissent" [level=3]
+    - list:
+      - listitem: "Seat B: Cost remains uncertain."
+    - button "Ask follow-up"

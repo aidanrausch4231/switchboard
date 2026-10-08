@@ -1,0 +1,30 @@
+- main:
+  - region "Subscriptions":
+    - heading "Subscriptions" [level=2]
+    - paragraph: Use your existing subscription in chat. Sign in, then choose a model in the model picker.
+    - group "ChatGPT":
+      - heading "ChatGPT" [level=3]
+      - text: Models enabled Signed in ✓
+      - button "Sign out"
+      - paragraph: Ready to chat
+    - group "Claude Pro / Max":
+      - heading "Claude Pro / Max" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "GitHub Copilot":
+      - heading "GitHub Copilot" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "Kimi":
+      - heading "Kimi" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "Meta":
+      - heading "Meta" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+    - group "xAI":
+      - heading "xAI" [level=3]
+      - text: Models not enabled
+      - button "Sign in"
+      - alert: Sign-in failed. Try again and check that your subscription supports this provider.

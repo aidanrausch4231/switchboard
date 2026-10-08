@@ -1,0 +1,2 @@
+# Unified diffs intentionally contain a single-space prefix on empty context lines.
+patches/dsh/*.patch whitespace=-blank-at-eol

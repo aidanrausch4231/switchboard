@@ -1,0 +1,16 @@
+# Test-only model replacement. Every selectable Council seat uses the keyless adapter.
+- id: hmr
+  disabled: true
+- insert:
+    - id: council-ui-fake-model
+      name: ../../../council/tests/adapter.ts
+- id: switchboard-council
+  config:
+    chair: a
+    seats:
+      - { id: a, label: Research chair, kind: llm, provider: fake, model: model-a, enabled: true }
+      - { id: b, label: Engineering, kind: llm, provider: fake, model: model-b, enabled: true }
+      - { id: c, label: Systems, kind: llm, provider: fake, model: model-c, enabled: true }
+      - { id: d, label: Operations, kind: llm, provider: fake, model: model-a, enabled: true }
+      - { id: e, label: Review, kind: llm, provider: fake, model: model-b, enabled: true }
+      - { id: codex, label: Codex, kind: subagent, subagent: codex, provider: codex, enabled: true }

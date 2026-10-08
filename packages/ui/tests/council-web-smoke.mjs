@@ -1,0 +1,68 @@
+/** Browser evidence over a real dsh profile and the Council engine's keyless model adapter. */
+import assert from 'node:assert/strict'
+import { readFile, writeFile } from 'node:fs/promises'
+import { chromium } from 'playwright'
+
+const [url, screenshot] = process.argv.slice(2)
+assert.ok(url, 'Pass the authenticated URL for the profile with fixtures/council.patch.yml')
+const browser = await chromium.launch()
+const page = await browser.newPage({ viewport: { width: 1760, height: 1400 }, locale: 'en-US', colorScheme: 'dark' })
+try {
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.addLocatorHandler(page.getByRole('button', { name: /^(Continue|继续)$/ }), button => button.click())
+  await page.addLocatorHandler(page.getByRole('button', { name: 'Configure later', exact: true }), button => button.click())
+  await page.goto(url, { waitUntil: 'load' })
+  await page.getByRole('button', { name: 'Council', exact: true }).waitFor({ timeout: 60000 })
+  await page.getByRole('button', { name: 'Council', exact: true }).click()
+  const codex = page.getByRole('checkbox', { name: /Codex/ })
+  assert.equal(await codex.isDisabled(), true)
+  assert.equal(await codex.isChecked(), false)
+  await page.getByText('Unavailable: codex has no read-only mode yet').waitFor()
+  await page.getByRole('textbox', { name: 'The question' }).fill('Which storage should a single-machine card board use?')
+  await page.getByRole('radio', { name: 'Debate', exact: true }).check()
+  await page.getByRole('button', { name: 'Convene council', exact: true }).click()
+  await page.getByRole('region', { name: 'The chair’s ruling' }).waitFor()
+  await page.getByRole('combobox', { name: 'View round' }).selectOption('1')
+  await page.getByRole('region', { name: 'Council chamber', exact: true }).locator('[class*="hologram"] small').filter({ hasText: 'Round 1 of 2' }).waitFor()
+  await page.getByRole('combobox', { name: 'View round' }).selectOption('2')
+  await page.getByRole('region', { name: 'Council chamber', exact: true }).locator('[class*="hologram"] small').filter({ hasText: 'Round 2 of 2' }).waitFor()
+  await page.getByRole('button', { name: 'Ask follow-up' }).click()
+  assert.match(await page.getByRole('textbox', { name: 'The question' }).inputValue(), /Council ruling: Choose the reversible option\./)
+  await page.getByRole('textbox', { name: 'The question' }).fill('Which storage should a single-machine card board use?')
+  await page.getByRole('radio', { name: 'Vote', exact: true }).check()
+  await page.getByRole('button', { name: 'Convene council', exact: true }).click()
+  const chamber = page.getByRole('region', { name: 'Council chamber', exact: true })
+  await chamber.getByText('Seat B · 5', { exact: true }).waitFor()
+  assert.equal(await chamber.getByRole('article').count(), 5)
+  assert.equal(await page.getByRole('button', { name: 'Send to Graphs' }).count(), 0)
+  const actual = await chamber.ariaSnapshot() + '\n'
+  const expected = new URL('./expected/council.aria.txt', import.meta.url)
+  if (process.env.DSH_SNAPSHOT === 'refresh') await writeFile(expected, actual)
+  else assert.equal(actual, await readFile(expected, 'utf8'))
+  const hologram = chamber.locator('[class*="hologram"]')
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  assert.match(await hologram.evaluate(node => getComputedStyle(node).animationName), /hologram-flicker/)
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  assert.equal(await hologram.evaluate(node => getComputedStyle(node).animationName), 'none')
+  if (screenshot) await page.screenshot({ path: screenshot })
+  await page.emulateMedia({ colorScheme: 'light' })
+  if (screenshot) await page.screenshot({ path: screenshot.replace(/\.png$/, '-light.png') })
+  await page.setViewportSize({ width: 760, height: 1100 })
+  const cards = chamber.getByRole('article')
+  assert.equal(await cards.first().evaluate(node => getComputedStyle(node).position), 'relative')
+  assert.equal(await page.getByRole('main').evaluate(node => node.scrollWidth <= node.clientWidth), true)
+  if (screenshot) await page.screenshot({ path: screenshot.replace(/\.png$/, '-narrow.png') })
+  await page.getByRole('button', { name: 'New question', exact: true }).click()
+  const question = page.getByRole('textbox', { name: 'The question' })
+  await question.waitFor()
+  assert.equal(await question.evaluate(node => node === document.activeElement), true)
+  assert.equal(await question.inputValue(), '')
+  assert.deepEqual(errors, [])
+  console.log('Council: real model-fixture flow, debate rounds, votes, follow-up, ARIA, both themes, narrow layout, reduced motion and new-question focus passed.')
+} catch (error) {
+  console.error((await page.getByRole('dialog').allTextContents()).join('\n'))
+  throw error
+} finally {
+  await browser.close()
+}

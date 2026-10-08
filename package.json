@@ -1,0 +1,23 @@
+{
+  "name": "switchboard",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "check": "node scripts/check-adapter.mjs && pnpm run typecheck",
+    "typecheck": "tsc -b packages/council packages/core packages/fallback packages/bundle && tsx build/declarations.ts && pnpm run contracts && tsc -b packages/ui",
+    "contracts": "tsx build/contracts.ts",
+    "test": "vitest run",
+    "build": "pnpm run typecheck && pnpm -r --workspace-concurrency=1 bundle"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "tsdown": "^0.22.2",
+    "tsx": "^4.22.4",
+    "vitest": "^4.1.8",
+    "jsdom": "29.1.1",
+    "lightningcss": "^1.32.0",
+    "@deepseek-ai/dsh-typert-generator": "link:../dsh-upstream/packages/typert/generator",
+    "@types/node": "^22.20.0"
+  }
+}

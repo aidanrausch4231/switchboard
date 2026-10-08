@@ -1,0 +1,952 @@
+diff --git a/THIRD_PARTY_NOTICES.md b/THIRD_PARTY_NOTICES.md
+index 99b0fb1ab3..4310d0e53b 100644
+--- a/THIRD_PARTY_NOTICES.md
++++ b/THIRD_PARTY_NOTICES.md
+@@ -143,7 +143,7 @@ External packages installed for runtime use or distributed inside the prebuilt b
+ 
+ pnpm applies local patches to the following packages at install time, so shipped artifacts carry modified copies; each patch file is the complete record of the modification:
+ 
+-- `@earendil-works/pi-ai@0.87.1` — [`patches/@earendil-works__pi-ai@0.87.1.patch`](patches/@earendil-works__pi-ai@0.87.1.patch)
++- `@earendil-works/pi-ai@1.0.4` — [`patches/@earendil-works__pi-ai@1.0.4.patch`](patches/@earendil-works__pi-ai@1.0.4.patch)
+ - `@electron/osx-sign@1.3.3` — [`patches/@electron__osx-sign@1.3.3.patch`](patches/@electron__osx-sign@1.3.3.patch)
+ - `@fortune-sheet/core@1.0.4` — [`patches/@fortune-sheet__core@1.0.4.patch`](patches/@fortune-sheet__core@1.0.4.patch)
+ - `@fortune-sheet/react@1.0.4` — [`patches/@fortune-sheet__react@1.0.4.patch`](patches/@fortune-sheet__react@1.0.4.patch)
+diff --git a/packages/llm/llm-pi-ai/README.i18n.yaml b/packages/llm/llm-pi-ai/README.i18n.yaml
+index 360574b758..c76460a73c 100644
+--- a/packages/llm/llm-pi-ai/README.i18n.yaml
++++ b/packages/llm/llm-pi-ai/README.i18n.yaml
+@@ -24,11 +24,11 @@
+   en: c5d28300fa2cfc6f
+   zh: c162855dcb54b65b
+ /deepseek-ai-dsh-llm-pi-ai/use-this-package/sign-in-to-a-provider:
+-  en: c36f66438638ae08
+-  zh: 066a2fc4cb97c86f
++  en: 69847b5ec1cbfa0a
++  zh: c86c5b0e999948c2
+ /deepseek-ai-dsh-llm-pi-ai/use-this-package/resolve-the-model-catalog:
+-  en: 376f83206858b601
+-  zh: 38bb6993609c96a6
++  en: 4c7ab8e9215f0ffe
++  zh: 518057f67219592a
+ /deepseek-ai-dsh-llm-pi-ai/use-this-package/run-with-reasoning-and-wire-compatibility:
+   en: 86b456496b54854e
+   zh: ff77ca11d39ba8d2
+@@ -39,8 +39,8 @@
+   en: 6619e8cfe7555c73
+   zh: b2f80c25acb81cf8
+ /deepseek-ai-dsh-llm-pi-ai/use-this-package/failures-and-recovery:
+-  en: 65bcc3b0db3f98e5
+-  zh: 3c994e74894bea52
++  en: 747f735ce9c3cdb2
++  zh: cec68415e76b609e
+ /deepseek-ai-dsh-llm-pi-ai/understand-the-implementation:
+   en: 1598ac8a8bb9b6bf
+   zh: fdd089c5ae7722cd
+@@ -81,14 +81,14 @@
+   en: 9b7d6b95ec2c4351
+   zh: 356ac01aef9e8bed
+ /deepseek-ai-dsh-llm-pi-ai/model-experience/provider-response/token-effect:
+-  en: f002b21d0f4c3df0
+-  zh: 388c8ed4676ed1af
++  en: 24620e9f3c53bad8
++  zh: 767f3c2e3fc5247d
+ /deepseek-ai-dsh-llm-pi-ai/model-experience/provider-response/kv-cache-effect:
+   en: b6bd570c0159ba08
+   zh: 7d2d91eea6a8d830
+ /deepseek-ai-dsh-llm-pi-ai/known-limitations-and-deferred-work:
+-  en: bb240ee5dd3f81c7
+-  zh: 884506a36f4aac62
++  en: 66574fd7162bcaf3
++  zh: 5137d7f97d4131be
+ /deepseek-ai-dsh-llm-pi-ai/known-limitations-and-deferred-work/dev-note:
+   en: 3678dd0f6642c2a5
+   zh: 75cbdd064cc64282
+diff --git a/packages/llm/llm-pi-ai/README.md b/packages/llm/llm-pi-ai/README.md
+index ea0adbe524..874721a7bc 100644
+--- a/packages/llm/llm-pi-ai/README.md
++++ b/packages/llm/llm-pi-ai/README.md
+@@ -94,10 +94,14 @@ The generated [configuration catalog](../../../docs/config-catalog.md#deepseek-a
+ 
+ A provider pi-ai ships a login for can be signed into through the harness authorization seam: the flow offers OAuth or an interactive key prompt (a key is typed into pi-ai's own login prompt, not into the settings form), and the resulting credential is stored in the harness credential store at `llm-pi-ai/<provider id>`. The stored sign-in authenticates its route beneath any `apiKeyEnv` override and refreshes itself under the store's cross-process lock; signing out deletes the stored record. A hand-declared route key outside the record grammar — a lowercase hyphenated identifier — cannot be signed into, because a record write for it refuses with `LlmError('UNSTORABLE_PROVIDER_ID')`; such a route authenticates through `apiKeyEnv` or ambient provider settings instead.
+ 
++Sign in with ChatGPT on `openai` supplies the harness home's anonymous UUID as the installation ID required by pi-ai. Other login methods do not create that ID unless their provider requests it.
++
+ ### Resolve the model catalog
+ 
+ A profile's `models` list replaces the route's installed catalog rather than extending it; each entry defaults its unset fields from the installed model of the same id, so narrowing a route to two models, correcting one capacity, or adding a model newer than the installed catalog are one-line edits. `modelOverrides` reshapes individual installed-catalog models without that cost — correct one model, keep the other thirty-seven — and is refused when set beside a `models` list, on a hand-declared route, or naming a model the catalog does not describe, because a silently unchanged model would be a typo someone hunts for later.
+ 
++The `azure` route serves Azure's mixed-protocol catalog. The `azure-openai-responses` route retains its Responses-only catalog and its separate `llm-pi-ai/azure-openai-responses` credential record.
++
+ ### Run with reasoning and wire compatibility
+ 
+ `reasoningEfforts` declares a model's selectable thinking levels: each key is a level selectors offer, its value the spelling dispatch sends on the wire, so `max: ultra` renames a level for a gateway with its own vocabulary. Omitting the field keeps the installed catalog entry's capability; `false` declares a non-reasoning model. `compat` switches reshape the request for endpoints pi-ai cannot recognize — which role carries the system prompt, which field caps output, how a thinking level travels — configurable per route and per model. A model neither the entry nor the installed catalog sizes takes the route's `defaultContextWindow` and `defaultMaxTokens` fallbacks.
+@@ -116,6 +120,8 @@ The plugin answers "which models can this provider serve?" for a route a configu
+ 
+ A route pi-ai does not ship needs `api`, `baseURL`, and a non-empty `models` list; an unserviceable profile is refused where it is written, naming the route and model. Failures carry stable codes: a credential that cannot be used fails with `INVALID_CREDENTIAL` naming the route and reference, a route whose `apiKeyEnv` reference resolves to nothing fails with `MISSING_CREDENTIAL`, an unconfigured model fails with `UNKNOWN_MODEL`, and terminal provider failures distinguish `QUOTA` from transient `RATE_LIMIT`. `GenerateOptions.stop` is rejected with `UNSUPPORTED_OPTION` because pi-ai's common streaming UI cannot guarantee it across providers.
+ 
++ChatGPT subscription exhaustion maps to `QUOTA` even in HTTP 429 responses or stream errors. Temporary subscription-data failures and model-capacity failures map to `SERVER`; canceled pending HTTP/2 streams map to `TRANSPORT`. Other pi-ai-recognized transient failures receive Harness retry/fallback codes; SDK retries remain disabled.
++
+ Config updates strictly validate changed providers. Initial loading retains stored catalog failures as editable provider diagnostics; unchanged failed providers do not block edits elsewhere. Serviceable models remain selectable, and unresolved models fail before network I/O. Repairing or deleting the offending configuration clears its diagnostic.
+ 
+ Changing `displayName`, `apiKeyEnv`, or `baseURL` without resolving the provider's model errors still rejects the save. For example, renaming an OpenRouter route whose model `111` needs an `api` cannot be saved on its own: repair or remove that model in the same editor draft, then save the complete provider configuration. Intermediate repairs remain in the draft until the whole provider validates; other providers can be saved independently.
+@@ -201,7 +207,7 @@ pi-ai events become harness reasoning, text, tool-call, usage, and finish chunks
+ 
+ #### Token effect
+ 
+-Generated content affects later inputs only after the loop records it. pi-ai folds reasoning tokens into output usage when the provider does not report them separately, and preserves its exact `totalTokens` value unchanged.
++Generated content affects later inputs only after the loop records it. pi-ai folds reasoning tokens into output usage when the provider does not report them separately, and preserves its exact `totalTokens` value unchanged. Idle-watchdog timeouts emit the observed usage before settlement, or explicit zero usage if none arrived.
+ 
+ #### KV Cache effect
+ 
+@@ -229,7 +235,7 @@ These limits define where the adapter stops and future work begins. They are cur
+ - **Only a leading in-history `system` message becomes pi-ai's `systemPrompt`** — this adapter uses pi-ai's single `systemPrompt` input, so a later `system` message, or a leading one when `GenerateOptions.system` is also set, folds into a `user` message at its position; provider-specific placement of the prompt follows pi-ai rather than a harness-owned wire override. Images in system or assistant history, including the leading system message, fail with `UNSUPPORTED_CONTENT` on both conversion paths.
+ - **Provider HTTP status is unavailable** — pi-ai error events do not expose a stable HTTP status across providers.
+ - **Retry policy is provider-owned, not an SDK retry** — pi-ai SDK retries stay disabled so durable agent steps and `llm/retry` events own every visible attempt, and direct `ctx.llm.stream()` calls remain single-attempt.
+-- **Streamed tool-call arguments are parsed once, when the call ends** — the installed pi-ai carries [`patches/@earendil-works__pi-ai@0.87.1.patch`](../../../patches/@earendil-works__pi-ai@0.87.1.patch), which removes the per-delta re-parse of the whole accumulated argument JSON in every stream adapter (upstream [earendil-works/pi#9265](https://github.com/earendil-works/pi/issues/9265)); unpatched, a multi-megabyte argument stream costs O(n²) CPU on the event loop and stalls every session in the process. Until `toolcall_end`, a pi-ai partial's tool-call `arguments` stays `{}`; this adapter reads only the delta strings and the finalized arguments. Re-apply or retire the patch on every pi-ai upgrade.
++- **Streamed tool-call arguments are parsed once, when the call ends** — the installed pi-ai carries [`patches/@earendil-works__pi-ai@1.0.4.patch`](../../../patches/@earendil-works__pi-ai@1.0.4.patch), which removes the per-delta re-parse of the whole accumulated argument JSON in every stream adapter (upstream [earendil-works/pi#9265](https://github.com/earendil-works/pi/issues/9265)); unpatched, a multi-megabyte argument stream costs O(n²) CPU on the event loop and stalls every session in the process. Until `toolcall_end`, a pi-ai partial's tool-call `arguments` stays `{}`; this adapter reads only the delta strings and the finalized arguments. Re-apply or retire the patch on every pi-ai upgrade.
+ 
+ <a id="dev-note"></a>
+ ### Dev Note
+diff --git a/packages/llm/llm-pi-ai/README.zh.md b/packages/llm/llm-pi-ai/README.zh.md
+index 8a72e3867b..7320a9cda9 100644
+--- a/packages/llm/llm-pi-ai/README.zh.md
++++ b/packages/llm/llm-pi-ai/README.zh.md
+@@ -94,10 +94,14 @@ kind: "package-reference"
+ 
+ pi-ai 提供登录的提供方可以通过 harness 授权 seam 登录：流程提供 OAuth 或交互式密钥提示（密钥键入 pi-ai 自己的登录提示，而非设置表单），得到的凭据存储在 harness 凭据存储的 `llm-pi-ai/<provider id>` 记录中。存储的登录在其路由的 `apiKeyEnv` 覆盖之下完成认证，并在存储的跨进程锁下自行刷新；退出登录即删除存储记录。落在记录文法之外——小写连字符标识符——的手工声明路由键无法登录，因为对它的记录写入会以 `LlmError('UNSTORABLE_PROVIDER_ID')` 拒绝；这类路由改用 `apiKeyEnv` 或提供方 ambient 设置认证。
+ 
++`openai` 的 Sign in with ChatGPT 登录方式将 harness 主目录的匿名 UUID 作为 pi-ai 要求的安装标识。其他登录方式仅在其提供方请求时才创建该标识。
++
+ ### 解析模型目录
+ 
+ profile 的 `models` 列表会替换而非扩展路由的已安装目录；每个条目从同 id 已安装模型取未设置字段的默认值，因此把路由收窄到两个模型、修正一个容量或添加比已安装目录更新的模型都是一行编辑。`modelOverrides` 无需该代价即可重塑个别已安装目录模型——修正一个模型，保留其余三十七个——当它与 `models` 列表并存、位于手工声明路由上、或点名目录未描述的模型时会被拒绝，因为静默不变的模型会成为别人日后寻找的拼写错误。
+ 
++`azure` 路由提供 Azure 的混合协议目录。`azure-openai-responses` 路由保留仅含 Responses 的目录及其独立的 `llm-pi-ai/azure-openai-responses` 凭据记录。
++
+ ### 带推理（reasoning）与协议兼容运行
+ 
+ `reasoningEfforts` 声明模型可选择的 thinking 等级：每个键都是选择器提供的等级，其值是分派时在协议中发送的拼写，因此 `max: ultra` 可以为拥有自有词汇的网关重命名等级。省略该字段时保留已安装目录条目的能力；`false` 声明非推理模型。对于 pi-ai 无法识别的端点，`compat` 开关重塑请求——哪个角色携带系统提示词、哪个字段限制输出、thinking 等级如何传递——可逐路由、逐模型配置。条目与已安装目录都没有尺寸的模型，会采用路由的 `defaultContextWindow` 与 `defaultMaxTokens` 回退值。
+@@ -116,6 +120,8 @@ profile 的 `models` 列表会替换而非扩展路由的已安装目录；每
+ 
+ pi-ai 不提供的路由需要 `api`、`baseURL` 与非空 `models` 列表；无法服务的 profile 会在写入处被拒绝，并点名路由与模型。失败携带稳定 code：无法使用的凭据以 `INVALID_CREDENTIAL` 失败并点名路由与引用，`apiKeyEnv` 引用解析为空的路由以 `MISSING_CREDENTIAL` 失败，未配置模型以 `UNKNOWN_MODEL` 失败，终止性提供方失败则区分 `QUOTA` 与暂时性 `RATE_LIMIT`。`GenerateOptions.stop` 以 `UNSUPPORTED_OPTION` 被拒绝，因为 pi-ai 的通用流式 UI 无法跨提供方保证它。
+ 
++ChatGPT 订阅额度耗尽映射为 `QUOTA`，即使通过 HTTP 429 响应或流内错误返回也是如此。订阅数据暂时不可用和模型容量不足映射为 `SERVER`；待发送的 HTTP/2 流被取消映射为 `TRANSPORT`。pi-ai 识别的其他暂时性故障会获得 Harness 重试／回退代码；SDK 重试保持禁用。
++
+ Config 更新严格验证发生变化的 provider。初始加载将已存储的目录故障保留为可编辑的 provider 诊断；未更改的故障 provider 不阻止其他编辑。可用模型仍可选择，无法解析的模型在网络 I/O 前失败。修复或删除问题配置会清除其诊断。
+ 
+ 只修改 `displayName`、`apiKeyEnv` 或 `baseURL` 而未解决提供方的模型配置错误时，保存仍会被拒绝。例如，OpenRouter 路由的模型 `111` 缺少 `api` 时，不能单独保存路由名称的修改：需要在同一份编辑草稿中修复或删除该模型，再保存完整的提供方配置。中间修复状态保留在草稿中，直到整条提供方配置通过校验；其他提供方可以独立保存。
+@@ -201,7 +207,7 @@ pi-ai 事件变成 harness 的推理、文本、工具调用、用量与 finish
+ 
+ #### Token 影响
+ 
+-生成内容只在 loop 记录后才影响后续输入。提供方未单独报告推理 token 时，pi-ai 会把推理 token 并入输出用量，并原样保留其精确 `totalTokens` 值。
++生成内容只在 loop 记录后才影响后续输入。提供方未单独报告推理 token 时，pi-ai 会把推理 token 并入输出用量，并原样保留其精确 `totalTokens` 值。空闲看门狗超时会在请求结束前输出已观察到的用量；若尚未收到用量，则明确输出零用量。
+ 
+ #### KV Cache 影响
+ 
+@@ -229,7 +235,7 @@ pi-ai 事件变成 harness 的推理、文本、工具调用、用量与 finish
+ - **只有历史中首条 `system` 消息会成为 pi-ai 的 `systemPrompt`**——本适配器使用 pi-ai 的单一 `systemPrompt` 输入，因此后续的 `system` 消息，或在同时设置了 `GenerateOptions.system` 时的首条消息，会在原位置折叠为 `user` 消息；系统提示词的提供方专属放置遵循 pi-ai，而非 harness 自有的协议覆盖。system 或 assistant 历史中的图片（包括首条系统消息中的图片）在两条转换路径上都会以 `UNSUPPORTED_CONTENT` 失败。
+ - **提供方 HTTP 状态不可用**——pi-ai 错误事件不跨提供方暴露稳定 HTTP 状态。
+ - **重试策略由提供方自有，而非 SDK 重试**——pi-ai SDK 重试保持禁用，因此持久 agent（智能体）步骤与 `llm/retry` 事件拥有每个可见尝试，直接 `ctx.llm.stream()` 调用仍是单次尝试。
+-- **流式工具调用参数只在调用结束时解析一次**——安装的 pi-ai 带有 [`patches/@earendil-works__pi-ai@0.87.1.patch`](../../../patches/@earendil-works__pi-ai@0.87.1.patch)，它移除了每个流适配器中对整段累计参数 JSON 的逐 delta 重新解析（上游 [earendil-works/pi#9265](https://github.com/earendil-works/pi/issues/9265)）；未打补丁时，数 MB 的参数流会在事件循环上消耗 O(n²) CPU，并使进程内所有会话停滞。在 `toolcall_end` 之前，pi-ai partial 的工具调用 `arguments` 保持为 `{}`；本适配器只读取 delta 字符串与最终参数。每次升级 pi-ai 时都要重新应用或撤销该补丁。
++- **流式工具调用参数只在调用结束时解析一次**——安装的 pi-ai 带有 [`patches/@earendil-works__pi-ai@1.0.4.patch`](../../../patches/@earendil-works__pi-ai@1.0.4.patch)，它移除了每个流适配器中对整段累计参数 JSON 的逐 delta 重新解析（上游 [earendil-works/pi#9265](https://github.com/earendil-works/pi/issues/9265)）；未打补丁时，数 MB 的参数流会在事件循环上消耗 O(n²) CPU，并使进程内所有会话停滞。在 `toolcall_end` 之前，pi-ai partial 的工具调用 `arguments` 保持为 `{}`；本适配器只读取 delta 字符串与最终参数。每次升级 pi-ai 时都要重新应用或撤销该补丁。
+ 
+ <a id="dev-note"></a>
+ ### 开发备注
+diff --git a/packages/llm/llm-pi-ai/package.json b/packages/llm/llm-pi-ai/package.json
+index 2c5de1fca5..bcdaf4186b 100644
+--- a/packages/llm/llm-pi-ai/package.json
++++ b/packages/llm/llm-pi-ai/package.json
+@@ -38,10 +38,11 @@
+     "@deepseek-ai/cordis-plugin-loader": "workspace:~"
+   },
+   "dependencies": {
++    "@deepseek-ai/dsh-anonymous-user-id": "workspace:*",
+     "@deepseek-ai/dsh-brand": "workspace:*",
+     "@deepseek-ai/dsh-util-values": "workspace:*",
+     "@deepseek-ai/schemastery": "workspace:~",
+-    "@earendil-works/pi-ai": "^0.87.1"
++    "@earendil-works/pi-ai": "1.0.4"
+   },
+   "devDependencies": {
+     "@deepseek-ai/cordis": "workspace:~",
+diff --git a/packages/llm/llm-pi-ai/src/adapter.ts b/packages/llm/llm-pi-ai/src/adapter.ts
+index de9f3e0e42..5ee0f14972 100644
+--- a/packages/llm/llm-pi-ai/src/adapter.ts
++++ b/packages/llm/llm-pi-ai/src/adapter.ts
+@@ -28,6 +28,8 @@
+ 
+ import type {
+   Api,
++  AssistantMessage,
++  AssistantMessageEvent,
+   AuthContext,
+   CredentialStore,
+   Model,
+@@ -60,7 +62,7 @@ import { idleWatchdog, timeoutOf } from '@deepseek-ai/dsh-timeout'
+ import type { ResolvedPiAiProviderProfile } from './config.ts'
+ import { toPiContext } from './context.ts'
+ import { createModels, getSupportedThinkingLevels } from './models.ts'
+-import { toStreamChunks } from './stream.ts'
++import { mapUsage, toStreamChunks } from './stream.ts'
+ 
+ /** One resolution's frozen view: the profiles and the collection built from them. */
+ interface PiAiSnapshot {
+@@ -215,6 +217,8 @@ function requestHeaders(headers: Readonly<Record<string, string>> | undefined):
+  * pi-ai-backed multi-provider adapter. Each operation reads the current
+  * profiles, so a configuration change reaches the next request without a
+  * restart; model descriptors come from the collection those profiles built.
++ * Idle timeouts emit observed token usage, or explicit zeros if none arrived,
++ * before failing with `TIMEOUT`.
+  */
+ export class PiAiAdapter extends LlmAdapter {
+   private snapshot: PiAiSnapshot | undefined
+@@ -353,6 +357,7 @@ export class PiAiAdapter extends LlmAdapter {
+       : AbortSignal.any([options.signal, consumer.signal])
+     const streamIdleTimeoutMs = profile.streamIdleTimeoutMs
+     using watchdog = idleWatchdog(upstream, streamIdleTimeoutMs, 'LLM_STREAM_IDLE_TIMEOUT')
++    let latestMessage: AssistantMessage | undefined
+ 
+     try {
+       const containsImage = options.messages.some(message => contentHasImage(message.content))
+@@ -387,7 +392,13 @@ export class PiAiAdapter extends LlmAdapter {
+         // Harness-owned and therefore win collisions.
+         headers: requestHeaders(profile.headers),
+       })
+-      const iterator = toStreamChunks(events, model.contextWindow, options.signal, model.id)[Symbol.asyncIterator]()
++      async function* observeUsage(): AsyncGenerator<AssistantMessageEvent> {
++        for await (const event of events) {
++          latestMessage = 'partial' in event ? event.partial : event.type === 'done' ? event.message : event.error
++          yield event
++        }
++      }
++      const iterator = toStreamChunks(observeUsage(), model.contextWindow, options.signal, model.id)[Symbol.asyncIterator]()
+       let exhausted = false
+       try {
+         while (true) {
+@@ -412,6 +423,12 @@ export class PiAiAdapter extends LlmAdapter {
+       }
+     } catch (error: unknown) {
+       if (timeoutOf(watchdog.signal, 'LLM_STREAM_IDLE_TIMEOUT') !== undefined) {
++        yield {
++          type: 'usage',
++          usage: latestMessage === undefined
++            ? { inputTokens: 0, outputTokens: 0, totalTokens: 0 }
++            : mapUsage(latestMessage.usage),
++        }
+         throw new LlmError(`pi-ai stream idle timeout after ${streamIdleTimeoutMs}ms`, 'TIMEOUT', { cause: error })
+       }
+       if (options.signal?.aborted) {
+diff --git a/packages/llm/llm-pi-ai/src/catalog.ts b/packages/llm/llm-pi-ai/src/catalog.ts
+index a257feedba..923ec34b3d 100644
+--- a/packages/llm/llm-pi-ai/src/catalog.ts
++++ b/packages/llm/llm-pi-ai/src/catalog.ts
+@@ -172,7 +172,13 @@ let providerIndex: Map<string, Provider> | undefined
+  * @returns the catalog provider index.
+  */
+ function catalogProviders(): Map<string, Provider> {
+-  providerIndex ??= new Map(builtinProviders().map(provider => [provider.id, provider]))
++  if (providerIndex === undefined) {
++    providerIndex = new Map(builtinProviders().map(provider => [provider.id, provider]))
++    const azure = providerIndex.get('azure')
++    if (azure !== undefined) {
++      providerIndex.set('azure-openai-responses', { ...azure, id: 'azure-openai-responses' })
++    }
++  }
+   return providerIndex
+ }
+ 
+@@ -186,11 +192,11 @@ export function catalogProvider(provider: string): Provider | undefined {
+ }
+ 
+ /**
+- * Every provider route the installed pi-ai catalog ships.
++ * Installed provider routes plus the legacy Azure Responses route.
+  * @returns the catalog provider ids.
+  */
+ export function catalogProviderIds(): readonly string[] {
+-  return getBuiltinProviders()
++  return [...getBuiltinProviders(), 'azure-openai-responses']
+ }
+ 
+ /**
+@@ -199,9 +205,13 @@ export function catalogProviderIds(): readonly string[] {
+  * @returns catalog models by id; empty for a route pi-ai does not ship.
+  */
+ export function catalogModels(provider: string): Map<string, Model<Api>> {
+-  if (!catalogProviders().has(provider)) return new Map()
+-  const models = getBuiltinModels(provider as BuiltinProvider) as Model<Api>[]
+-  return new Map(models.map(model => [model.id, model]))
++  const catalog = catalogProvider(provider)
++  if (catalog === undefined) return new Map()
++  const models = getBuiltinModels((provider === 'azure-openai-responses' ? 'azure' : catalog.id) as BuiltinProvider) as Model<Api>[]
++  // Existing Azure routes retain their Responses-only catalog and credential key.
++  return new Map(models
++    .filter(model => provider !== 'azure-openai-responses' || model.api === 'azure-openai-responses')
++    .map(model => [model.id, model]))
+ }
+ 
+ /**
+diff --git a/packages/llm/llm-pi-ai/src/login.ts b/packages/llm/llm-pi-ai/src/login.ts
+index 4bbe7d7850..9c23ca3543 100644
+--- a/packages/llm/llm-pi-ai/src/login.ts
++++ b/packages/llm/llm-pi-ai/src/login.ts
+@@ -9,6 +9,7 @@
+ 
+ import type { AuthEvent, AuthPrompt, AuthType, Provider } from '@earendil-works/pi-ai'
+ import type { Context } from '@deepseek-ai/cordis'
++import { getOrCreateAnonymousUserId } from '@deepseek-ai/dsh-anonymous-user-id'
+ import type { AuthorizationMethod, AuthorizationPrompt, AuthorizationSession } from '@deepseek-ai/dsh-authorization'
+ import { isCredentialKeySegment } from '@deepseek-ai/dsh-credentials'
+ import { catalogProvider, catalogProviderIds } from './catalog.ts'
+@@ -154,7 +155,7 @@ export function registerPiAiFlows(ctx: Context, auth: PiAiAuthInjection): void {
+           signal: session.signal,
+           notify: (event) => { relay(event, session) },
+           prompt: prompt => session.prompt(restate(prompt)),
+-        })
++        }, { getDeviceId: getOrCreateAnonymousUserId })
+       },
+     })
+   }
+diff --git a/packages/llm/llm-pi-ai/src/stream.ts b/packages/llm/llm-pi-ai/src/stream.ts
+index 30e9c79412..6f939acd30 100644
+--- a/packages/llm/llm-pi-ai/src/stream.ts
++++ b/packages/llm/llm-pi-ai/src/stream.ts
+@@ -12,6 +12,7 @@ import { brandString } from '@deepseek-ai/dsh-brand'
+ import { CONTEXT_WINDOW_EXCEEDED_CODE, EMPTY_RESPONSE_CODE, isContextWindowExceededError, isQuotaExceededError, LlmError, QUOTA_EXCEEDED_CODE } from '@deepseek-ai/dsh-llm'
+ import type { FinishReason, StreamChunk, TokenUsage, ToolCallId } from '@deepseek-ai/dsh-llm'
+ import { isContextOverflow } from '@earendil-works/pi-ai/utils/overflow'
++import { isRetryableAssistantError } from '@earendil-works/pi-ai/utils/retry'
+ import type { AssistantMessage, AssistantMessageEvent, Usage as PiUsage } from '@earendil-works/pi-ai'
+ import { toPiReplayState } from './replay.ts'
+ 
+@@ -39,10 +40,11 @@ export function mapUsage(usage: PiUsage): TokenUsage {
+ // wrapper a bare `terminated`, so we are left pattern-matching terse words here.
+ // If pi-ai ever forwards the original Error (or a fetch/dispatcher hook that lets
+ // us capture the cause ourselves), classify on `code`/`cause` instead of text.
+-function classifyPiAiError(message: string): string {
++function classifyPiAiError(error: AssistantMessage): string {
++  const message = error.errorMessage ?? ''
++  if (/subscription_sharing_usage_limit_exceeded/i.test(message) || isQuotaExceededError(message)) return QUOTA_EXCEEDED_CODE
+   if (/\b(?:401|403)\b/.test(message)) return 'AUTH'
+-  if (isQuotaExceededError(message)) return QUOTA_EXCEEDED_CODE
+-  if (/\b429\b|rate.?limit/i.test(message)) return 'RATE_LIMIT'
++  if (/\b429\b|rate.?limit|too many requests|ResourceExhausted|retry delay/i.test(message)) return 'RATE_LIMIT'
+   // A rejected request body (gateway or provider size cap): resending the
+   // same request cannot succeed, so it is invalid, not transient.
+   if (/\b413\b|failed to buffer the request body:\s*length limit exceeded|payload too large|request body too large/i.test(message)) return 'INVALID_REQUEST'
+@@ -55,16 +57,20 @@ function classifyPiAiError(message: string): string {
+   // event`, `… ended without a terminal event`, `Stream ended without
+   // finish_reason`). The connection dropped mid-response, so this is a transport
+   // truncation, not a model-level error.
+-  if (/stream ended (?:before|without)\b/i.test(message)) return 'TRANSPORT'
++  if (/stream ended before\b|ended without\b/i.test(message)) return 'TRANSPORT'
+   if (/\b(?:network|connection|socket|fetch)\b|\bECONN[A-Z]+\b/i.test(message)
+-    || /\b(?:other side closed|HTTP2 request did not get a response|WebSocket closed unexpectedly)\b/i.test(message)
++    || /(?:network|connection|websocket).?error|websocket.?closed/i.test(message)
++    || /getaddrinfo|ENOTFOUND|EAI_AGAIN|upstream.?connect|reset before headers/i.test(message)
++    || /\b(?:other side closed|HTTP2 request did not get a response|pending stream has been canceled)\b/i.test(message)
+     // undici renders a mid-stream socket drop as a bare `terminated` (its
+     // `cause` — the real SocketError — was flattened away upstream); Node's
+     // stream layer says `Premature close`.
+     || /\bterminated\b|premature close/i.test(message)) {
+     return 'TRANSPORT'
+   }
+-  return 'PI_AI_ERROR'
++  // SDK retries are disabled; preserve pi-ai's remaining transient service
++  // classifications for the Harness retry/fallback policies.
++  return isRetryableAssistantError(error) ? 'SERVER' : 'PI_AI_ERROR'
+ }
+ 
+ /**
+@@ -75,7 +81,8 @@ function classifyPiAiError(message: string): string {
+  *   `contextWindow`, and zero-output `length` usage that fills the window map
+  *   to `CONTEXT_WINDOW_EXCEEDED`; a `stop` with no content blocks maps to an
+  *   `EMPTY_RESPONSE` error, while terminal `pending` and `deferred` states map
+- *   to non-retryable `PI_AI_ERROR` failures.
++ *   to non-retryable `PI_AI_ERROR` failures. Quota takes precedence over HTTP
++ *   status; transient provider and transport failures receive Harness recovery codes.
+  */
+ export function mapStopReason(message: AssistantMessage, contextWindow?: number): FinishReason {
+   const piAiOverflow = isContextOverflow(message, contextWindow)
+@@ -122,7 +129,7 @@ export function mapStopReason(message: AssistantMessage, contextWindow?: number)
+     }
+     case 'error': {
+       const text = message.errorMessage ?? 'pi-ai stream error'
+-      return { kind: 'error', failure: { message: text, code: classifyPiAiError(text) } }
++      return { kind: 'error', failure: { message: text, code: classifyPiAiError(message) } }
+     }
+   }
+ }
+diff --git a/packages/llm/llm-pi-ai/tests/adapter.spec.ts b/packages/llm/llm-pi-ai/tests/adapter.spec.ts
+index d894a1012e..b3315b9a2b 100644
+--- a/packages/llm/llm-pi-ai/tests/adapter.spec.ts
++++ b/packages/llm/llm-pi-ai/tests/adapter.spec.ts
+@@ -9,7 +9,7 @@ import type {
+   SaveImageAttachment,
+   StoredImageAttachment,
+ } from '@deepseek-ai/dsh-attachment'
+-import LlmRuntime, { createToolResultMessage, createUserMessage, CONTEXT_WINDOW_EXCEEDED_CODE, LlmError, ReasoningEffortId, userAgent } from '@deepseek-ai/dsh-llm'
++import LlmRuntime, { BlockAssembler, createToolResultMessage, createUserMessage, CONTEXT_WINDOW_EXCEEDED_CODE, LlmError, ReasoningEffortId, resolveRetryPolicy, userAgent } from '@deepseek-ai/dsh-llm'
+ import * as LlmPiAi from '@deepseek-ai/dsh-llm-pi-ai'
+ import { PiAiAdapter } from '@deepseek-ai/dsh-llm-pi-ai'
+ import { MAX_TIMER_DELAY_MS } from '@deepseek-ai/dsh-timeout'
+@@ -90,6 +90,39 @@ describe('PiAiAdapter provider routing', () => {
+     expect(server.paths).toEqual(['/chat/completions'])
+   })
+ 
++  it.each([
++    ['deepseek', 'deepseek-flash'],
++    ['openrouter', 'deepseek/deepseek-v4-flash'],
++  ])('streams %s tool calls with usage and session affinity', async (provider, model) => {
++    const server = await mockServer([{ events: [
++      JSON.stringify({ choices: [{ index: 0, delta: { tool_calls: [
++        { index: 0, id: 'call-1', type: 'function', function: { name: 'lookup', arguments: '{"city":' } },
++      ] }, finish_reason: null }] }),
++      JSON.stringify({ choices: [{ index: 0, delta: { tool_calls: [
++        { index: 0, function: { arguments: '"Paris"}' } },
++      ] }, finish_reason: null }] }),
++      JSON.stringify({ choices: [{ index: 0, delta: {}, finish_reason: 'tool_calls' }],
++        usage: { prompt_tokens: 12, completion_tokens: 4, prompt_tokens_details: { cached_tokens: 5 } } }),
++      '[DONE]',
++    ] }])
++    const adapter = adapterOf({ [provider]: { baseURL: server.url } })
++    const chunks: unknown[] = []
++    for await (const chunk of adapter.stream({
++      provider, model, messages: [], sessionId: 'pi-upgrade-session' as never,
++      tools: [{ name: 'lookup', description: 'Look up a city', parameters: { type: 'object', properties: { city: { type: 'string' } } } }],
++    })) chunks.push(chunk)
++    expect(chunks).toContainEqual({
++      type: 'block-end', index: 0,
++      block: { type: 'tool-call', id: 'call-1', name: 'lookup', arguments: '{"city":"Paris"}' },
++    })
++    expect(chunks.at(-2)).toEqual({ type: 'usage', usage: {
++      inputTokens: 7, outputTokens: 4, totalTokens: 16, cacheReadTokens: 5,
++    } })
++    expect(chunks.at(-1)).toMatchObject({ type: 'finish', reason: { kind: 'tool-calls' } })
++    expect(server.requests[0]).toMatchObject({ model, stream_options: { include_usage: true } })
++    if (provider === 'openrouter') expect(server.headers[0]?.['x-session-id']).toBe('pi-upgrade-session')
++  })
++
+   it('keeps prepared model metadata and dispatch on one profile snapshot', async () => {
+     const first = await mockServer([{ events: textEvents }])
+     const second = await mockServer([])
+@@ -386,6 +419,27 @@ describe('PiAiAdapter provider routing', () => {
+     const ctx = await harness(server.url)
+     const result = await assemble(ctx, { model: 'deepseek-flash', messages: [] })
+     expect(result.finish).toMatchObject({ kind: 'error', failure: { code } })
++    expect(result.usage).toEqual({ inputTokens: 0, outputTokens: 0, totalTokens: 0 })
++    expect(server.paths).toEqual(['/chat/completions'])
++  })
++
++  it.each(['HTTP 429', 'SSE'])('keeps ChatGPT subscription exhaustion out of transient recovery over %s', async (delivery) => {
++    const body = JSON.stringify({ error: {
++      code: 'subscription_sharing_usage_limit_exceeded',
++      message: 'subscription_sharing_usage_limit_exceeded',
++    } })
++    const server = await mockServer([delivery === 'HTTP 429' ? { status: 429, body } : { events: [body] }])
++    const ctx = await harness(server.url)
++    onTestFinished(() => ctx.fiber.dispose())
++
++    const result = await assemble(ctx, { model: 'deepseek-flash', messages: [] })
++
++    expect(result.finish).toMatchObject({ kind: 'error', failure: { code: 'QUOTA' } })
++    if (result.finish.kind !== 'error') throw new Error('expected quota failure')
++    const policy = resolveRetryPolicy(undefined, 'test')
++    if (policy.mode !== 'normal') throw new Error('expected normal retry policy')
++    expect(policy.retryableCodes).not.toContain(result.finish.failure.code)
++    expect(result.usage).toEqual({ inputTokens: 0, outputTokens: 0, totalTokens: 0 })
+     expect(server.paths).toEqual(['/chat/completions'])
+   })
+ 
+@@ -414,8 +468,11 @@ describe('PiAiAdapter provider routing', () => {
+     })
+   })
+ 
+-  it('stops the SDK request when the adapter idle watchdog expires', async () => {
+-    const server = await mockServer([{ holdOpen: true }])
++  it.each([false, true])('stops the SDK request and retains usage on idle timeout (observed usage: %s)', async (observed) => {
++    const server = await mockServer([{ holdOpen: true, events: observed ? [JSON.stringify({
++      choices: [{ delta: { content: 'partial' }, index: 0, finish_reason: null }],
++      usage: { prompt_tokens: 12, completion_tokens: 4, prompt_tokens_details: { cached_tokens: 5 } },
++    })] : [] }])
+     const ctx = await harness(server.url, { streamIdleTimeoutMs: 20 })
+     const controller = new AbortController()
+     onTestFinished(async () => {
+@@ -424,14 +481,25 @@ describe('PiAiAdapter provider routing', () => {
+     })
+     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+ 
+-    const pending = assemble(ctx, { model: 'deepseek-flash', messages: [], signal: controller.signal })
++    const result = new BlockAssembler()
++    const deltaReceived = Promise.withResolvers<undefined>()
++    const pending = (async () => {
++      for await (const chunk of ctx.llm.stream({ provider: 'deepseek', model: 'deepseek-flash', messages: [], signal: controller.signal })) {
++        result.push(chunk)
++        if (chunk.type === 'text-delta') deltaReceived.resolve(undefined)
++      }
++    })()
+     await server.requestReceived
++    if (observed) await deltaReceived.promise
+     expect(server.closedResponses).toBe(0)
+     await vi.advanceTimersByTimeAsync(20)
+     vi.useRealTimers()
+ 
+-    const result = await pending
++    await pending
+     expect(result.finish).toMatchObject({ kind: 'error', failure: { code: 'TIMEOUT' } })
++    expect(result.usage).toEqual(observed
++      ? { inputTokens: 7, outputTokens: 4, totalTokens: 16, cacheReadTokens: 5 }
++      : { inputTokens: 0, outputTokens: 0, totalTokens: 0 })
+     await server.responseClosed
+ 
+     expect(server.paths).toEqual(['/chat/completions'])
+diff --git a/packages/llm/llm-pi-ai/tests/catalog.spec.ts b/packages/llm/llm-pi-ai/tests/catalog.spec.ts
+index e6f5330e9b..3e85c8ae7c 100644
+--- a/packages/llm/llm-pi-ai/tests/catalog.spec.ts
++++ b/packages/llm/llm-pi-ai/tests/catalog.spec.ts
+@@ -11,6 +11,7 @@ import { getBuiltinModels } from '@earendil-works/pi-ai/providers/all'
+ import { AssistantMessageEventStream } from '@earendil-works/pi-ai/utils/event-stream'
+ import { normalizeContext } from '@earendil-works/pi-ai/utils/transcript'
+ import type { Api, Model, OpenAICompletionsCompat, Provider } from '@earendil-works/pi-ai'
++import { catalogProvider, catalogProviderIds } from '../src/catalog.ts'
+ import { resolveProfiles } from '../src/config.ts'
+ import { createModels, createProvider, getSupportedThinkingLevels } from '../src/models.ts'
+ import { buildProvider, supportedProtocols } from '../src/provider.ts'
+@@ -1075,6 +1076,41 @@ describe('compat switches', () => {
+     })).toThrow(/model "deepseek-flash" sets compat "requiresReasoningContentOnAssistantMessages" with no value/)
+   })
+ 
++  it('retains the legacy Azure Responses route beside the mixed Azure catalog', async () => {
++    const profiles = resolveProfiles({ 'azure-openai-responses': {}, azure: {} })
++    const legacy = profiles.get('azure-openai-responses')?.piProvider
++    const azure = profiles.get('azure')?.piProvider
++    expect(catalogProviderIds()).toContain('azure-openai-responses')
++    expect(legacy?.id).toBe('azure-openai-responses')
++    expect(legacy?.getModels().length).toBeGreaterThan(0)
++    expect(legacy?.getModels().every(model => model.api === 'azure-openai-responses'
++      && model.provider === 'azure-openai-responses')).toBe(true)
++    expect(azure?.getModels().some(model => model.api === 'openai-completions')).toBe(true)
++    expect(legacy?.auth).toBe(catalogProvider('azure')?.auth)
++
++    const auth = memoryAuth()
++    const models = createModels(auth)
++    const provider = catalogProvider('azure-openai-responses')
++    if (provider === undefined) throw new Error('legacy Azure provider missing')
++    models.setProvider(provider)
++    await models.login(provider.id, 'api_key', {
++      prompt: () => Promise.resolve('azure-test-key'),
++      notify: () => {},
++    })
++    expect(auth.stored.get('azure-openai-responses')).toMatchObject({ type: 'api_key', key: 'azure-test-key' })
++    expect(auth.stored.has('azure')).toBe(false)
++    await expect(models.getAuth(provider.id)).resolves.toMatchObject({ auth: { apiKey: 'azure-test-key' } })
++  })
++
++  it.each(['anthropic', 'openai-codex', 'github-copilot', 'kimi-coding', 'meta', 'xai'])(
++    'retains the %s OAuth provider and its chat models', (route) => {
++      const profile = resolveProfiles({ [route]: {} }).get(route)
++      expect(profile?.piProvider?.auth.oauth).toBe(catalogProvider(route)?.auth.oauth)
++      expect(profile?.piProvider?.auth.oauth).toBeDefined()
++      expect(profile?.piProvider?.getModels().length).toBeGreaterThan(0)
++    },
++  )
++
+   it('serves the Responses compat type on every protocol pi-ai gives it to', () => {
+     // pi-ai types azure-openai-responses and openai-codex-responses with the
+     // same OpenAIResponsesCompat, so a switch settable on one is settable on all.
+diff --git a/packages/llm/llm-pi-ai/tests/convert.spec.ts b/packages/llm/llm-pi-ai/tests/convert.spec.ts
+index 005c12596c..1d48556ec8 100644
+--- a/packages/llm/llm-pi-ai/tests/convert.spec.ts
++++ b/packages/llm/llm-pi-ai/tests/convert.spec.ts
+@@ -1,11 +1,12 @@
+ import { describe, expect, it, vi } from 'vitest'
+ import { AttachmentId, ImageVariantId } from '@deepseek-ai/dsh-attachment'
+ import type { AttachmentStore, ImageAttachmentRef, ImageRequestTarget, RequestImageAttachment } from '@deepseek-ai/dsh-attachment'
+-import { createToolResultMessage, createUserMessage, ToolCallId, CONTEXT_WINDOW_EXCEEDED_CODE, EMPTY_RESPONSE_CODE, createMessage } from '@deepseek-ai/dsh-llm'
++import { createToolResultMessage, createUserMessage, ToolCallId, CONTEXT_WINDOW_EXCEEDED_CODE, EMPTY_RESPONSE_CODE, createMessage, resolveRetryPolicy } from '@deepseek-ai/dsh-llm'
+ import type { ContentBlock, StreamChunk } from '@deepseek-ai/dsh-llm'
+ import type { AssistantMessage, AssistantMessageEvent, Usage } from '@earendil-works/pi-ai'
+ import { transformMessages } from '@earendil-works/pi-ai/api/transform-messages'
+ import { getBuiltinModels } from '@earendil-works/pi-ai/providers/all'
++import { isRetryableAssistantError } from '@earendil-works/pi-ai/utils/retry'
+ import { toPiContext } from '../src/context.ts'
+ import { toPiReplayState } from '../src/replay.ts'
+ import { mapStopReason, mapUsage, toStreamChunks } from '../src/stream.ts'
+@@ -860,6 +861,59 @@ describe('toStreamChunks', () => {
+ })
+ 
+ describe('mapStopReason / mapUsage', () => {
++  it.each([
++    ['subscription_sharing_usage_unavailable', 'SERVER'],
++    ['subscription_sharing_user_unavailable', 'SERVER'],
++    ['Selected model is at capacity', 'SERVER'],
++    ['overloaded', 'SERVER'],
++    ['currently experiencing high demand', 'SERVER'],
++    ['service unavailable', 'SERVER'],
++    ['server_error', 'SERVER'],
++    ['internal_error', 'SERVER'],
++    ['Provider returned error', 'SERVER'],
++    ['exceeded request buffer limit while retrying upstream', 'SERVER'],
++    ['you can retry your request', 'SERVER'],
++    ['try your request again', 'SERVER'],
++    ['please retry your request', 'SERVER'],
++    ['retry delay exceeds maximum', 'RATE_LIMIT'],
++    ['ResourceExhausted', 'RATE_LIMIT'],
++    ['too many requests', 'RATE_LIMIT'],
++    ['rate_limit', 'RATE_LIMIT'],
++    ...['429', '500', '502', '503', '504', '520', '524'].map(status => [status, status === '429' ? 'RATE_LIMIT' : 'SERVER']),
++    ['The pending stream has been canceled', 'TRANSPORT'],
++    ['network_error', 'TRANSPORT'],
++    ['connection_error', 'TRANSPORT'],
++    ['connection refused', 'TRANSPORT'],
++    ['connection lost', 'TRANSPORT'],
++    ['other side closed', 'TRANSPORT'],
++    ['fetch failed', 'TRANSPORT'],
++    ['getaddrinfo', 'TRANSPORT'],
++    ['ENOTFOUND', 'TRANSPORT'],
++    ['EAI_AGAIN', 'TRANSPORT'],
++    ['upstream connect', 'TRANSPORT'],
++    ['reset before headers', 'TRANSPORT'],
++    ['socket hang up', 'TRANSPORT'],
++    ['socket connection was closed', 'TRANSPORT'],
++    ['terminated', 'TRANSPORT'],
++    ['WebSocket closed unexpectedly', 'TRANSPORT'],
++    ['websocket_error', 'TRANSPORT'],
++    ['response ended without terminal event', 'TRANSPORT'],
++    ['Anthropic stream ended before message_stop', 'TRANSPORT'],
++    ['stream ended before a terminal response event', 'TRANSPORT'],
++    ['HTTP2 request did not get a response', 'TRANSPORT'],
++    ['timed out', 'TIMEOUT'],
++    ['timeout', 'TIMEOUT'],
++  ])('makes pi-ai transient failure %s eligible for DSH recovery as %s', (errorMessage, code) => {
++    const message = assistant({ stopReason: 'error', errorMessage })
++    expect(isRetryableAssistantError(message)).toBe(true)
++    const reason = mapStopReason(message)
++    expect(reason).toMatchObject({ kind: 'error', failure: { code } })
++    if (reason.kind !== 'error') throw new Error('expected failed request')
++    const policy = resolveRetryPolicy(undefined, 'test')
++    if (policy.mode !== 'normal') throw new Error('expected normal retry policy')
++    expect(policy.retryableCodes).toContain(reason.failure.code)
++  })
++
+   it.each([
+     ['stop', { kind: 'stop' }],
+     ['length', { kind: 'max-tokens' }],
+diff --git a/packages/llm/llm-pi-ai/tests/login.spec.ts b/packages/llm/llm-pi-ai/tests/login.spec.ts
+index 6074cbd848..5d3e02e524 100644
+--- a/packages/llm/llm-pi-ai/tests/login.spec.ts
++++ b/packages/llm/llm-pi-ai/tests/login.spec.ts
+@@ -7,7 +7,7 @@ import AuthorizationService from '@deepseek-ai/dsh-authorization'
+ import type { AuthorizationInteraction, AuthorizationNotice, AuthorizationPrompt } from '@deepseek-ai/dsh-authorization'
+ import LocalCredentialProvider from '@deepseek-ai/dsh-credentials-local'
+ import type { CredentialKey } from '@deepseek-ai/dsh-credentials'
+-import type { AuthEvent, AuthInteraction, AuthPrompt, AuthType, Credential } from '@earendil-works/pi-ai'
++import type { AuthEvent, AuthInteraction, AuthPrompt, AuthType, Credential, LoginOptions } from '@earendil-works/pi-ai'
+ 
+ const login = vi.hoisted(() => vi.fn())
+ 
+@@ -76,6 +76,7 @@ async function attempt(
+ }
+ 
+ afterEach(async () => {
++  vi.unstubAllEnvs()
+   login.mockReset()
+   await Promise.all(dirs.splice(0).map(dir => rm(dir, { recursive: true, force: true })))
+ })
+@@ -102,10 +103,24 @@ describe('pi-ai login flows', () => {
+     const ctx = await harness()
+ 
+     await attempt(ctx, () => Promise.resolve())
+-    expect(login).toHaveBeenLastCalledWith('openai-codex', 'oauth', expect.anything())
++    expect(login).toHaveBeenLastCalledWith('openai-codex', 'oauth', expect.anything(), expect.anything())
+ 
+     await attempt(ctx, () => Promise.resolve(), { key: recordKeyFor('anthropic'), method: 'api-key' })
+-    expect(login).toHaveBeenLastCalledWith('anthropic', 'api_key', expect.anything())
++    expect(login).toHaveBeenLastCalledWith('anthropic', 'api_key', expect.anything(), expect.anything())
++  })
++
++  it('supplies a stable harness-home UUID to Sign in with ChatGPT', async () => {
++    const home = await mkdtemp(join(tmpdir(), 'dsh-pi-device-'))
++    dirs.push(home)
++    vi.stubEnv('DSH_HOME', home)
++    const ctx = await harness()
++    await attempt(ctx, () => Promise.resolve(), { key: recordKeyFor('openai'), method: 'oauth' })
++    const options = login.mock.calls.at(-1)?.[3] as LoginOptions
++    const id = options.getDeviceId?.()
++    expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/)
++    await attempt(ctx, () => Promise.resolve(), { key: recordKeyFor('openai'), method: 'oauth' })
++    const repeated = login.mock.calls.at(-1)?.[3] as LoginOptions
++    expect(repeated.getDeviceId?.()).toBe(id)
+   })
+ 
+   it('commits what the login produced, where the adapter reads it back', async () => {
+diff --git a/packages/llm/llm-pi-ai/tsconfig.json b/packages/llm/llm-pi-ai/tsconfig.json
+index 36c2181a39..ea99790eda 100644
+--- a/packages/llm/llm-pi-ai/tsconfig.json
++++ b/packages/llm/llm-pi-ai/tsconfig.json
+@@ -8,6 +8,9 @@
+     "src"
+   ],
+   "references": [
++    {
++      "path": "../../identity/anonymous-user-id"
++    },
+     {
+       "path": "../../util/launch-environment"
+     },
+diff --git a/patches/@earendil-works__pi-ai@0.87.1.patch b/patches/@earendil-works__pi-ai@1.0.4.patch
+similarity index 79%
+rename from patches/@earendil-works__pi-ai@0.87.1.patch
+rename to patches/@earendil-works__pi-ai@1.0.4.patch
+index 227a183e12..23c0363aae 100644
+--- a/patches/@earendil-works__pi-ai@0.87.1.patch
++++ b/patches/@earendil-works__pi-ai@1.0.4.patch
+@@ -1,8 +1,8 @@
+ diff --git a/dist/api/anthropic-messages.js b/dist/api/anthropic-messages.js
+-index e1538a5dfcf2225da9dc3ec622576564ee7c8530..abb8f990d680ee247708ca774a467fc5774e28b0 100644
++index 38571b3..950e546 100644
+ --- a/dist/api/anthropic-messages.js
+ +++ b/dist/api/anthropic-messages.js
+-@@ -500,7 +500,6 @@ export const stream = (model, context, options) => {
++@@ -553,7 +553,6 @@ export const stream = (model, context, options) => {
+                          const block = blocks[index];
+                          if (block && block.type === "toolCall") {
+                              block.partialJson += event.delta.partial_json;
+@@ -11,10 +11,10 @@ index e1538a5dfcf2225da9dc3ec622576564ee7c8530..abb8f990d680ee247708ca774a467fc5
+                                  type: "toolcall_delta",
+                                  contentIndex: index,
+ diff --git a/dist/api/bedrock-converse-stream.js b/dist/api/bedrock-converse-stream.js
+-index 6bc6312906ec3d75f31d190994d21c87f1d0767d..7ff68fb60c3c1d9e3e7d2d2df8d4619593a67335 100644
++index 428af80..d81d290 100644
+ --- a/dist/api/bedrock-converse-stream.js
+ +++ b/dist/api/bedrock-converse-stream.js
+-@@ -453,7 +453,6 @@ function handleContentBlockDelta(event, blocks, output, stream) {
++@@ -461,7 +461,6 @@ function handleContentBlockDelta(event, blocks, output, stream) {
+      }
+      else if (delta?.toolUse && block?.type === "toolCall") {
+          block.partialJson = (block.partialJson || "") + (delta.toolUse.input || "");
+@@ -23,10 +23,10 @@ index 6bc6312906ec3d75f31d190994d21c87f1d0767d..7ff68fb60c3c1d9e3e7d2d2df8d46195
+      }
+      else if (delta?.reasoningContent) {
+ diff --git a/dist/api/mistral-conversations.js b/dist/api/mistral-conversations.js
+-index 67f9341a6f7d855dce25054fd48cd9077e8e04a1..afdb5c2c873abb72ca8011b7e3f06a230dbe3e8a 100644
++index fbcc5e2..f540825 100644
+ --- a/dist/api/mistral-conversations.js
+ +++ b/dist/api/mistral-conversations.js
+-@@ -543,7 +543,6 @@ async function consumeChatStream(model, output, stream, mistralStream) {
++@@ -554,7 +554,6 @@ async function consumeChatStream(model, output, stream, mistralStream, onProvide
+                  ? toolCall.function.arguments
+                  : JSON.stringify(toolCall.function.arguments || {});
+              block.partialArgs = (block.partialArgs || "") + argsDelta;
+@@ -35,10 +35,10 @@ index 67f9341a6f7d855dce25054fd48cd9077e8e04a1..afdb5c2c873abb72ca8011b7e3f06a23
+                  type: "toolcall_delta",
+                  contentIndex: toolBlocksByKey.get(key),
+ diff --git a/dist/api/openai-completions.js b/dist/api/openai-completions.js
+-index 48464f2bf56b9369d5c202e4f02fc4f13d35b412..d829f5e8e56e788d96fa7a82c0e3cfaef3fc1f63 100644
++index a60f393..6c9b98e 100644
+ --- a/dist/api/openai-completions.js
+ +++ b/dist/api/openai-completions.js
+-@@ -453,7 +453,6 @@ export const stream = (model, context, options) => {
++@@ -438,7 +438,6 @@ export const stream = (model, context, options) => {
+                              if (toolCall.function?.arguments) {
+                                  delta = toolCall.function.arguments;
+                                  block.partialArgs = (block.partialArgs ?? "") + toolCall.function.arguments;
+@@ -47,10 +47,10 @@ index 48464f2bf56b9369d5c202e4f02fc4f13d35b412..d829f5e8e56e788d96fa7a82c0e3cfae
+                              else if (toolCall.custom?.input) {
+                                  const nextInput = getCustomToolCallInput(block) + toolCall.custom.input;
+ diff --git a/dist/api/openai-responses-shared.js b/dist/api/openai-responses-shared.js
+-index 43e463dbfd1e6cc437ebc680468036f47678de26..f4259772e289c326697ea7f2ece25954bfb5a520 100644
++index f413fe5..108f599 100644
+ --- a/dist/api/openai-responses-shared.js
+ +++ b/dist/api/openai-responses-shared.js
+-@@ -546,7 +546,6 @@ export async function processResponsesStream(openaiStream, output, stream, model
++@@ -548,7 +548,6 @@ export async function processResponsesStream(openaiStream, output, stream, model
+              if (!slot || slot.block.partialJson === undefined)
+                  continue;
+              slot.block.partialJson += event.delta;
+@@ -59,7 +59,7 @@ index 43e463dbfd1e6cc437ebc680468036f47678de26..f4259772e289c326697ea7f2ece25954
+          }
+          else if (event.type === "response.function_call_arguments.done") {
+ diff --git a/dist/api/pi-messages.js b/dist/api/pi-messages.js
+-index 5b9cb1680c47083a9a36eefa93124c67c750fd42..dc5a43ebd801fa6d4b7897c3739b588d4d571d3a 100644
++index 7da1c45..296d131 100644
+ --- a/dist/api/pi-messages.js
+ +++ b/dist/api/pi-messages.js
+ @@ -155,8 +155,6 @@ function createEventConverter(model) {
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 1102ae383e..828f2f793e 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -10,7 +10,7 @@ overrides:
+   '@deepseek-ai/schemastery': link:vendor/schemastery
+ 
+ patchedDependencies:
+-  '@earendil-works/pi-ai@0.87.1': b9bcce474fb2ac44633dff0fa722816a5bff5451b4575d5874035ea14ba70a4f
++  '@earendil-works/pi-ai@1.0.4': e869b58daf49693bbb7a5c0b2d204546484d191949078fc973b0a368743b902b
+   '@electron/osx-sign@1.3.3': 280e7b2816caf01423097d24e79107a66afeb563a348630ce9928ae8499a5861
+   '@fortune-sheet/core@1.0.4': 8791a230763dbf853fd65d627c68c31de37209992851377855e16cf08ea70532
+   '@fortune-sheet/react@1.0.4': 2932e52e79afcd4ced08cfa123b5eded786c85043da32f622f3e80af6fc96c37
+@@ -9938,6 +9938,9 @@ importers:
+ 
+   packages/llm/llm-pi-ai:
+     dependencies:
++      '@deepseek-ai/dsh-anonymous-user-id':
++        specifier: workspace:*
++        version: link:../../identity/anonymous-user-id
+       '@deepseek-ai/dsh-brand':
+         specifier: workspace:*
+         version: link:../../util/brand
+@@ -9948,8 +9951,8 @@ importers:
+         specifier: link:../../../vendor/schemastery
+         version: link:../../../vendor/schemastery
+       '@earendil-works/pi-ai':
+-        specifier: ^0.87.1
+-        version: 0.87.1(patch_hash=b9bcce474fb2ac44633dff0fa722816a5bff5451b4575d5874035ea14ba70a4f)(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(supports-color@9.4.0)(ws@8.21.0)(zod@4.4.3)
++        specifier: 1.0.4
++        version: 1.0.4(patch_hash=e869b58daf49693bbb7a5c0b2d204546484d191949078fc973b0a368743b902b)(@aws-sdk/credential-provider-node@3.972.84)(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(@smithy/signature-v4@5.7.4)(supports-color@9.4.0)(undici@8.10.0)(ws@8.21.0)(zod@4.4.3)
+     devDependencies:
+       '@deepseek-ai/cordis':
+         specifier: workspace:~
+@@ -15401,8 +15404,8 @@ packages:
+       '@modelcontextprotocol/sdk': ^1.29.0
+       zod: ^4.0.0
+ 
+-  '@anthropic-ai/sdk@0.124.0':
+-    resolution: {integrity: sha512-cN5O8i9UVxHeOQAzj/XjshWXG8KiibJDw9OGpH2Z/eR3n/RBxdoLxDJOcfqAJWvjaMDFfHTBADU04hWRJVkDyA==}
++  '@anthropic-ai/sdk@0.129.0':
++    resolution: {integrity: sha512-MH7LB20kNpGLUpPTe2OG5XvL/KhX8HUO9XyBaFjgFk6TLS4Xjt0VPIuMKywe7POKKPslX+QxSlVok9e+8kG5Nw==}
+     hasBin: true
+     peerDependencies:
+       zod: ^3.25.0 || ^4.0.0
+@@ -15739,13 +15742,13 @@ packages:
+       search-insights:
+         optional: true
+ 
+-  '@earendil-works/pi-ai@0.87.1':
+-    resolution: {integrity: sha512-X/3PfQBnnoeVdO9Cv8zHghUMglzlgNZYGNzoPnbRoGnHl3Rw3TlA2UKSUB7BRHUOxMryHXYa8dnjWZlbRheDZA==}
++  '@earendil-works/pi-ai@1.0.4':
++    resolution: {integrity: sha512-/Eu5R0gfor6wcmRcVyOmulUiZmsHJ0bKu5wXXnpCoSHF3y4FnW4fgnjRlLjNza8NJWXdvW5Uew90Zukx7Sh2rw==}
+     engines: {node: '>=22.19.0'}
+     hasBin: true
+ 
+-  '@earendil-works/pi-telemetry@0.87.1':
+-    resolution: {integrity: sha512-MC6TRQH5lgMXpcN+Vku2WMI2T8BsiUPzMQHGo81uqFZD3/9O79WWJAysEDGuzduP6R4tvtgwMLwmqIxynM10JQ==}
++  '@earendil-works/pi-telemetry@1.0.4':
++    resolution: {integrity: sha512-DL2eXXtnL5/VQkuQd97fL57GXTG1/zKHtMmDsrv8tGeJ5EgYYTWvzy44dqbYL0lD0Z22v/NOwqU3PHO75HVrqA==}
+     engines: {node: '>=22.19.0'}
+ 
+   '@electron-internal/extract-zip@1.0.5':
+@@ -21076,12 +21079,25 @@ packages:
+     resolution: {integrity: sha512-++Zlftm0kVLPmzC06t6epuWmcRMDbI4z5P3NNX979WA/k23+NtSOynEGzsVfZwguKw2mi5umVgnBlJQMwRz4Pg==}
+     engines: {node: '>=20'}
+ 
+-  openai@6.40.0:
+-    resolution: {integrity: sha512-MWtTjd/gQt4jpbji61NTgFWJLoY/PdRJ6wG9/ZDRMYNMlBKrCrSlkLI+KgHP1vR1qT6LKSAyAqIxno6lcK9JiA==}
++  openai@7.19.0:
++    resolution: {integrity: sha512-MX2s3u2L5racTO0CC/SWpCOasJQBCJrqLKXK+l82cAhdeF8mPMBEe/gxMm0ZFa2xpKpOFLRjxv5afYEZbBXmbQ==}
++    engines: {node: '>=22.0.0'}
+     peerDependencies:
+-      ws: ^8.18.0
++      '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
++      '@smithy/hash-node': '>=4.3.0 <5'
++      '@smithy/signature-v4': '>=5.4.0 <6'
++      undici: '>=5 <9'
++      ws: ^8.21.0
+       zod: ^3.25 || ^4.0
+     peerDependenciesMeta:
++      '@aws-sdk/credential-provider-node':
++        optional: true
++      '@smithy/hash-node':
++        optional: true
++      '@smithy/signature-v4':
++        optional: true
++      undici:
++        optional: true
+       ws:
+         optional: true
+       zod:
+@@ -22819,7 +22835,7 @@ snapshots:
+       '@anthropic-ai/claude-agent-sdk-win32-arm64': 0.3.263
+       '@anthropic-ai/claude-agent-sdk-win32-x64': 0.3.263
+ 
+-  '@anthropic-ai/sdk@0.124.0(zod@4.4.3)':
++  '@anthropic-ai/sdk@0.129.0(zod@4.4.3)':
+     dependencies:
+       json-schema-to-ts: 3.1.1
+       standardwebhooks: 1.1.1
+@@ -23284,28 +23300,32 @@ snapshots:
+     transitivePeerDependencies:
+       - '@algolia/client-search'
+ 
+-  '@earendil-works/pi-ai@0.87.1(patch_hash=b9bcce474fb2ac44633dff0fa722816a5bff5451b4575d5874035ea14ba70a4f)(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(supports-color@9.4.0)(ws@8.21.0)(zod@4.4.3)':
++  '@earendil-works/pi-ai@1.0.4(patch_hash=e869b58daf49693bbb7a5c0b2d204546484d191949078fc973b0a368743b902b)(@aws-sdk/credential-provider-node@3.972.84)(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(@smithy/signature-v4@5.7.4)(supports-color@9.4.0)(undici@8.10.0)(ws@8.21.0)(zod@4.4.3)':
+     dependencies:
+-      '@anthropic-ai/sdk': 0.124.0(zod@4.4.3)
++      '@anthropic-ai/sdk': 0.129.0(zod@4.4.3)
+       '@aws-sdk/client-bedrock-runtime': 3.1127.0
+-      '@earendil-works/pi-telemetry': 0.87.1
++      '@earendil-works/pi-telemetry': 1.0.4
+       '@google/genai': 2.21.0(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))
+       '@smithy/node-http-handler': 4.12.1
+       http-proxy-agent: 9.1.0(supports-color@9.4.0)
+       https-proxy-agent: 9.1.0(supports-color@9.4.0)
+-      openai: 6.40.0(ws@8.21.0)(zod@4.4.3)
++      openai: 7.19.0(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.4)(undici@8.10.0)(ws@8.21.0)(zod@4.4.3)
+       partial-json: 0.1.7
+       typebox: 1.3.27
+     transitivePeerDependencies:
++      - '@aws-sdk/credential-provider-node'
+       - '@modelcontextprotocol/sdk'
++      - '@smithy/hash-node'
++      - '@smithy/signature-v4'
+       - bufferutil
+       - kerberos
+       - supports-color
++      - undici
+       - utf-8-validate
+       - ws
+       - zod
+ 
+-  '@earendil-works/pi-telemetry@0.87.1': {}
++  '@earendil-works/pi-telemetry@1.0.4': {}
+ 
+   '@electron-internal/extract-zip@1.0.5': {}
+ 
+@@ -28681,8 +28701,11 @@ snapshots:
+       powershell-utils: 0.2.1
+       wsl-utils: 1.0.0
+ 
+-  openai@6.40.0(ws@8.21.0)(zod@4.4.3):
++  openai@7.19.0(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.4)(undici@8.10.0)(ws@8.21.0)(zod@4.4.3):
+     optionalDependencies:
++      '@aws-sdk/credential-provider-node': 3.972.84
++      '@smithy/signature-v4': 5.7.4
++      undici: 8.10.0
+       ws: 8.21.0
+       zod: 4.4.3
+ 
+diff --git a/pnpm-workspace.yaml b/pnpm-workspace.yaml
+index a3b8cd6dfc..fef2858aaf 100644
+--- a/pnpm-workspace.yaml
++++ b/pnpm-workspace.yaml
+@@ -64,8 +64,8 @@ minimumReleaseAgeExclude:
+   - '@deepseek-ai/libreoffice-kit-wasm@0.1.5'
+   # Fresh pi-ai releases carry the model catalog updates that are the whole
+   # point of bumping it; waiting out the release age would defeat that.
+-  - '@earendil-works/pi-ai@0.87.1'
+-  - '@earendil-works/pi-telemetry@0.87.1'
++  - '@earendil-works/pi-ai@1.0.4'
++  - '@earendil-works/pi-telemetry@1.0.4'
+   - node-addon-native-custom-loader@0.1.6
+   - node-addon-require-builtin-darwin-arm64@0.1.6
+   - node-addon-require-builtin-darwin-x64@0.1.6
+@@ -98,7 +98,7 @@ minimumReleaseAgeExclude:
+   - '@trycua/cua-driver-win32-x64-msvc@0.28.0'
+   - '@trycua/cua-driver@0.28.0'
+ patchedDependencies:
+-  '@earendil-works/pi-ai@0.87.1': patches/@earendil-works__pi-ai@0.87.1.patch
++  '@earendil-works/pi-ai@1.0.4': patches/@earendil-works__pi-ai@1.0.4.patch
+   '@electron/osx-sign@1.3.3': patches/@electron__osx-sign@1.3.3.patch
+   '@fortune-sheet/core@1.0.4': patches/@fortune-sheet__core@1.0.4.patch
+   '@fortune-sheet/react@1.0.4': patches/@fortune-sheet__react@1.0.4.patch

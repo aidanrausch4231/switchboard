@@ -1,0 +1,26 @@
+{
+  "id": "research",
+  "name": "Research",
+  "description": "Company research and evidence gathering",
+  "color": "#62c9ab",
+  "lead": {
+    "harness": "dsh",
+    "provider": "deepseek-official",
+    "model": "deepseek-v4-flash",
+    "memoryDir": "/switchboard-memory/research",
+    "instructions": "Read memory first. Keep notes concise. Never perform production writes; bounce uncertain requests. Dispatch only when the card supplies a workspace."
+  },
+  "nodes": [
+    {
+      "id": "research-company",
+      "kind": "flow",
+      "flowId": "company-research",
+      "description": "Research a company and merge sources. Input: company (string)."
+    }
+  ],
+  "edges": [],
+  "rules": {
+    "maxCostTokens": 100000,
+    "prodWrites": "never"
+  }
+}

@@ -1,0 +1,43 @@
+.page { box-sizing: border-box; height: 100%; overflow: auto; padding: 0 clamp(24px, 4vw, 48px) 48px; color: var(--dsw-alias-label-primary); font-size: 13px; line-height: 20px; }
+.page > * { max-width: 1200px; margin-inline: auto; }
+.header { padding-top: 28px; margin-bottom: 28px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+:global([data-platform='darwin']) .header { padding-top: calc(28px + var(--dsh-frame-top-clearance, 0px)); }
+.page h1 { font-size: 20px; font-weight: 500; line-height: 28px; margin: 0; }
+.page h2 { font-size: 16px; font-weight: 500; }
+.page h3 { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; font-weight: 500; margin: 0 0 16px; }
+.page h3 span, .header p, .muted { color: var(--dsw-alias-label-secondary); font-weight: 400; }
+.actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.list { border: 1px solid var(--dsw-alias-border-l2); border-radius: var(--dsw-radius-panel); overflow: hidden; }
+.row { box-sizing: border-box; display: grid; grid-template-columns: minmax(200px, 2fr) minmax(150px, 1fr) 80px 100px; gap: 20px; width: 100%; padding: 18px 20px; align-items: center; text-align: left; color: inherit; background: transparent; border: 0; border-bottom: 1px solid var(--dsw-alias-border-l2); cursor: pointer; font: inherit; }
+.row:last-child { border-bottom: 0; }
+.row[aria-pressed='true'], .row:hover { background: var(--dsw-alias-bg-layer-2); }
+.row strong { display: block; font-weight: 500; }
+.row small { display: block; color: var(--dsw-alias-label-secondary); font-size: 13px; overflow-wrap: anywhere; }
+.detailHeader { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 28px; margin-bottom: 16px; }
+.charts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.card { border: 1px solid var(--dsw-alias-border-l2); border-radius: var(--dsw-radius-panel); padding: 20px; min-width: 0; }
+.strip { display: flex; flex-wrap: wrap; gap: 5px; min-height: 20px; margin-bottom: 28px; }
+.strip > span, .grid td span { display: block; width: 18px; height: 18px; border-radius: 4px; background: var(--dsw-alias-label-tertiary); }
+.chart { display: block; width: 100%; overflow: visible; }
+.chart text { fill: var(--dsw-alias-label-secondary); font-size: 11px; }
+.axis { stroke: var(--dsw-alias-border-l2); }
+.median { stroke: var(--dsw-alias-label-secondary); }
+.line { fill: none; stroke: var(--dsw-alias-label-secondary); stroke-width: 1.5; }
+.page [data-state='succeeded'], .page [data-state='recovered'] { fill: var(--dsw-alias-state-success-primary); background: var(--dsw-alias-state-success-primary); }
+.page [data-state='failed'], .page [data-state='cancelled'] { fill: var(--dsw-alias-state-error-primary); background: var(--dsw-alias-state-error-primary); }
+.page [data-state='pending'], .page [data-state='queued'], .page [data-state='running'], .page [data-state='needs-you'], .page [data-state='skipped'] { fill: var(--dsw-alias-state-warn-primary); background: var(--dsw-alias-state-warn-primary); }
+.grid td [data-state='succeeded'] { background: color-mix(in srgb, var(--dsw-alias-state-success-primary) 25%, var(--dsw-alias-bg-layer-2)); }
+.grid td [data-state='unreached'] { background: var(--dsw-alias-bg-layer-2); border: 1px solid var(--dsw-alias-border-l2); }
+.gridScroll { overflow: auto; padding-bottom: 8px; }
+.grid { border-collapse: separate; border-spacing: 6px; font-size: 11px; }
+.grid th { color: var(--dsw-alias-label-secondary); font-weight: 400; text-align: left; max-width: 130px; overflow-wrap: anywhere; }
+.grid th[scope='row'] { white-space: nowrap; }
+.grid td span { margin-inline: auto; }
+.callout { border-top: 1px solid var(--dsw-alias-border-l2); padding-top: 16px; margin-bottom: 0; }
+.loading { display: flex; justify-content: center; padding: 48px; }
+.drawer { margin-left: auto; height: 100%; max-height: 100%; width: min(440px, 100%); }
+.drawerContent { overflow: auto; }
+.form { display: flex; flex-direction: column; gap: 16px; font-size: 13px; }
+.form label { display: flex; flex-direction: column; gap: 6px; }
+.form select, .form textarea { box-sizing: border-box; padding: 10px 12px; border: 1px solid var(--dsw-alias-border-l2); border-radius: 8px; background: var(--dsw-alias-bg-layer-2); color: var(--dsw-alias-label-primary); font: inherit; width: 100%; }
+@media (max-width: 900px) { .charts { grid-template-columns: minmax(0, 1fr); } .row { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; } }
